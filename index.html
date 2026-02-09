@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open When... ❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #ffeef8 0%, #ffc1e0 50%, #ffb3d9 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #5a3a4a;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: #ff69b4;
+            padding: 40px 20px;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(255,182,193,0.5);
+            color: #ff1493;
+        }
+
+        .recipient-name {
+            font-size: 1.5em;
+            color: #ff1493;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .relationship-date {
+            font-size: 1em;
+            color: #ff69b4;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        header p {
+            font-size: 1.2em;
+            color: #ff69b4;
+            opacity: 0.95;
+        }
+
+        .letters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .letter-card {
+            background: linear-gradient(135deg, #fff 0%, #ffe9f5 100%);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(255,105,180,0.3);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid #ffb3d9;
+        }
+
+        .letter-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(255,105,180,0.5);
+            border-color: #ff69b4;
+        }
+
+        .letter-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #ff69b4, #ff1493, #ff69b4, #ffc1e0, #ff69b4);
+        }
+
+        .letter-card::after {
+            content: '✨';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5em;
+            opacity: 0.3;
+        }
+
+        .letter-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .letter-title {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #ff1493;
+            font-weight: bold;
+        }
+
+        .letter-subtitle {
+            color: #ff69b4;
+            font-size: 0.9em;
+            font-style: italic;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #fff 0%, #fff0f7 100%);
+            border-radius: 25px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(255,105,180,0.4);
+            border: 4px solid #ffb3d9;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 2em;
+            cursor: pointer;
+            color: #ffb3d9;
+            background: none;
+            border: none;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: #ffe9f5;
+            color: #ff1493;
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #ffc1e0;
+        }
+
+        .modal-header h2 {
+            font-size: 2em;
+            color: #ff1493;
+            margin-bottom: 10px;
+        }
+
+        .modal-body {
+            line-height: 1.8;
+            font-size: 1.1em;
+        }
+
+        .modal-body img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Countdown Timer Styles */
+        .countdown-container {
+            background: linear-gradient(135deg, #fff 0%, #ffe9f5 100%);
+            border-radius: 25px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(255,105,180,0.3);
+            margin-top: 30px;
+            border: 3px solid #ffb3d9;
+        }
+
+        .countdown-title {
+            font-size: 2em;
+            color: #ff1493;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(255,182,193,0.3);
+        }
+
+        .countdown-timer {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .time-unit {
+            background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            min-width: 100px;
+            box-shadow: 0 5px 15px rgba(255,105,180,0.4);
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .time-value {
+            font-size: 3em;
+            font-weight: bold;
+            display: block;
+        }
+
+        .time-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .date-arrived {
+            display: none;
+        }
+
+        .date-arrived.active {
+            display: block;
+        }
+
+        .date-arrived h3 {
+            color: #ff1493;
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(255,182,193,0.3);
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .letter-card {
+                padding: 20px;
+            }
+
+            .modal-content {
+                padding: 30px 20px;
+            }
+
+            .time-unit {
+                min-width: 80px;
+                padding: 15px;
+            }
+
+            .time-value {
+                font-size: 2em;
+            }
+        }
+
+        /* Cute floating hearts animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .floating-hearts {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            opacity: 0.3;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .heart:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; }
+        .heart:nth-child(2) { left: 20%; top: 80%; animation-delay: 0.5s; }
+        .heart:nth-child(3) { left: 80%; top: 30%; animation-delay: 1s; }
+        .heart:nth-child(4) { left: 90%; top: 70%; animation-delay: 1.5s; }
+        .heart:nth-child(5) { left: 50%; top: 10%; animation-delay: 2s; }
+        .heart:nth-child(6) { left: 30%; top: 50%; animation-delay: 2.5s; }
+
+        /* Locked date card styles */
+        .date-card-container {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .locked-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            cursor: not-allowed;
+        }
+
+        .locked-overlay.hidden {
+            display: none;
+        }
+
+        .lock-icon {
+            font-size: 4em;
+            color: #ff1493;
+            text-shadow: 0 0 20px rgba(255, 20, 147, 0.5);
+            animation: lock-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes lock-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .locked-message {
+            background: linear-gradient(135deg, #fff 0%, #ffe9f5 100%);
+            border: 3px solid #ff69b4;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(255,105,180,0.4);
+        }
+
+        .locked-message h3 {
+            color: #ff1493;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+
+        .locked-message p {
+            color: #ff69b4;
+            font-size: 1.2em;
+            font-style: italic;
+        }
+
+        /* Spotify Player Styles */
+        .spotify-player-container {
+            background: linear-gradient(135deg, #fff 0%, #ffe9f5 100%);
+            border-radius: 25px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(255,105,180,0.3);
+            border: 3px solid #ffb3d9;
+        }
+
+        .spotify-title {
+            text-align: center;
+            font-size: 2em;
+            color: #ff1493;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(255,182,193,0.3);
+        }
+
+        .spotify-subtitle {
+            text-align: center;
+            font-size: 1.1em;
+            color: #ff69b4;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+
+        .spotify-embed-wrapper {
+            max-width: 600px;
+            margin: 0 auto;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(255,105,180,0.4);
+        }
+
+        /* Photo Carousel Styles */
+        .photo-carousel-container {
+            background: linear-gradient(135deg, #fff 0%, #ffe9f5 100%);
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(255,105,180,0.3);
+            border: 3px solid #ffb3d9;
+        }
+
+        .carousel-title {
+            text-align: center;
+            font-size: 2.5em;
+            color: #ff1493;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 2px rgba(255,182,193,0.3);
+        }
+
+        .carousel-subtitle {
+            text-align: center;
+            font-size: 1.2em;
+            color: #ff69b4;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .carousel-wrapper {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(255,105,180,0.4);
+            border: 4px solid #ffc1e0;
+        }
+
+        .carousel-slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            position: relative;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .carousel-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(255,20,147,0.95) 0%, rgba(255,20,147,0.8) 50%, transparent 100%);
+            color: white;
+            padding: 30px 20px 20px;
+            text-align: center;
+        }
+
+        .carousel-caption h3 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .carousel-caption p {
+            font-size: 1em;
+            line-height: 1.6;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
+            color: white;
+            border: 3px solid white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5em;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255,105,180,0.4);
+        }
+
+        .carousel-btn:hover {
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 8px 25px rgba(255,105,180,0.6);
+        }
+
+        .carousel-btn.prev {
+            left: 15px;
+        }
+
+        .carousel-btn.next {
+            right: 15px;
+        }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .carousel-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #ffc1e0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid #ffb3d9;
+        }
+
+        .carousel-dot.active {
+            background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
+            transform: scale(1.3);
+            border-color: white;
+            box-shadow: 0 0 10px rgba(255,105,180,0.6);
+        }
+
+        .carousel-counter {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 1.1em;
+            color: #ff69b4;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .carousel-title {
+                font-size: 2em;
+            }
+
+            .carousel-slide img {
+                height: 350px;
+            }
+
+            .carousel-caption h3 {
+                font-size: 1.3em;
+            }
+
+            .carousel-caption p {
+                font-size: 0.9em;
+            }
+
+            .carousel-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2em;
+            }
+
+            .carousel-btn.prev {
+                left: 10px;
+            }
+
+            .carousel-btn.next {
+                right: 10px;
+            }
+        }
+    
+    </style>
+</head>
+<body>
+    <div class="floating-hearts">
+        <div class="heart">💕</div>
+        <div class="heart">💖</div>
+        <div class="heart">💗</div>
+        <div class="heart">💓</div>
+        <div class="heart">💝</div>
+        <div class="heart">💞</div>
+    </div>
+    
+    <div class="container">
+        <header>
+            <h1>✨ Open When... ❤️ ✨</h1>
+            <p class="recipient-name">For Vida Mía: Karina 💕</p>
+            <p>A collection of love letters, just for you 💕</p>
+        </header>
+
+        <div class="letters-grid">
+            <div class="letter-card" onclick="openLetter('tired')">
+                <span class="letter-icon">😴</span>
+                <div class="letter-title">Open When You're Tired</div>
+                <div class="letter-subtitle">For those exhausting days</div>
+            </div>
+
+            <div class="letter-card" onclick="openLetter('upset')">
+                <span class="letter-icon">😤</span>
+                <div class="letter-title">Open When You're Upset</div>
+                <div class="letter-subtitle">When things aren't going right</div>
+            </div>
+
+            <div class="letter-card" onclick="openLetter('miss')">
+                <span class="letter-icon">💕</span>
+                <div class="letter-title">Open When You Miss Me</div>
+                <div class="letter-subtitle">I'm always thinking of you</div>
+            </div>
+
+            <div class="letter-card" onclick="openLetter('french')">
+                <span class="letter-icon">🥐</span>
+                <div class="letter-title">Open When You Feel A Bit French</div>
+                <div class="letter-subtitle">Pour mon amour 💙</div>
+            </div>
+        </div>
+
+        <!-- Spotify Player Section -->
+        <div class="spotify-player-container">
+            <h2 class="spotify-title">🎵 Our Special Playlist 🎵</h2>
+            <p class="spotify-subtitle">Songs that remind me of you 💕</p>
+            
+            <div class="spotify-embed-wrapper">
+                <iframe data-testid="embed-iframe" 
+                        style="border-radius:12px" 
+                        src="https://open.spotify.com/embed/playlist/7eQrZWi6JfNBZcfVJP2HJI?utm_source=generator&theme=0" 
+                        width="100%" 
+                        height="352" 
+                        frameBorder="0" 
+                        allowfullscreen="" 
+                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                        loading="lazy">
+                </iframe>
+            </div>
+        </div>
+
+        <!-- Photo Carousel Section -->
+        <div class="photo-carousel-container">
+            <h2 class="carousel-title">Our Memories Together 📸</h2>
+            <p class="carousel-subtitle">Every moment with you is a treasure 💕</p>
+            
+            <div class="carousel-wrapper">
+                <div class="carousel-container">
+                    <div class="carousel-slides" id="carouselSlides">
+                        <!-- Slides will be loaded dynamically -->
+                    </div>
+                    <button class="carousel-btn prev" onclick="changeSlide(-1)">‹</button>
+                    <button class="carousel-btn next" onclick="changeSlide(1)">›</button>
+                </div>
+                <div class="carousel-dots" id="carouselDots"></div>
+                <div class="carousel-counter" id="carouselCounter">1 / 1</div>
+            </div>
+        </div>
+
+        <div class="countdown-container">
+            <div class="countdown-title">🌹 Our Special Date 🌹</div>
+            <div class="countdown-timer" id="countdown">
+                <div class="time-unit">
+                    <span class="time-value" id="days">0</span>
+                    <span class="time-label">Days</span>
+                </div>
+                <div class="time-unit">
+                    <span class="time-value" id="hours">0</span>
+                    <span class="time-label">Hours</span>
+                </div>
+                <div class="time-unit">
+                    <span class="time-value" id="minutes">0</span>
+                    <span class="time-label">Minutes</span>
+                </div>
+                <div class="time-unit">
+                    <span class="time-value" id="seconds">0</span>
+                    <span class="time-label">Seconds</span>
+                </div>
+            </div>
+            <div class="date-arrived" id="dateArrived">
+                <h3>🎉 It's Date Time! 🎉</h3>
+                <div class="date-card-container">
+                    <div class="letter-card" onclick="openDateLetter()" style="display: inline-block; cursor: pointer;">
+                        <span class="letter-icon">💑</span>
+                        <div class="letter-title">Open Your Date Letter</div>
+                        <div class="letter-subtitle">Click to read your special message</div>
+                    </div>
+                    <div class="locked-overlay" id="dateLock" onclick="showLockedMessage(event)">
+                        <div class="lock-icon">🔒</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            <div class="modal-header">
+                <h2 id="modalTitle"></h2>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <!-- Locked Message Modal -->
+    <div class="modal" id="lockedModal">
+        <div class="modal-content" style="max-width: 500px;">
+            <button class="close-btn" onclick="closeLockedModal()">&times;</button>
+            <div class="locked-message">
+                <h3>🔒 Not So Fast! 🔒</h3>
+                <p>We're not on a date now, are we? 😏</p>
+                <p style="margin-top: 20px; font-size: 0.9em;">This letter will unlock when we're together on our special date! 💕</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========================================
+        // 🎨 PERSONALIZATION SECTION - EDIT HERE!
+        // ========================================
+        
+        // 1. YOUR NAMES
+        const YOUR_NAME = "Seif";
+        const HER_NAME = "Karina";
+        
+        // 2. SPOTIFY PLAYLIST
+        const SPOTIFY_PLAYLIST_ID = "7eQrZWi6JfNBZcfVJP2HJI";
+        
+        // 3. DATE DETAILS
+        const DATE_TIME = "February 15, 2026 21:00:00";
+        const DATE_LOCATION = "our favorite restaurant";
+        
+        // 4. PHOTO FOLDER PATH
+        // Put all your photos in a folder (e.g., "Photos") in the same directory as this HTML file
+        // The script will automatically load ALL images from this folder
+        const PHOTO_FOLDER = "Photos"; // Change this to your folder name
+        
+        // 5. PHOTO CAPTIONS (Optional)
+        // You can add custom captions for specific photos by filename
+        // If a photo doesn't have a caption here, it will use a generic one
+        const PHOTO_CAPTIONS = {
+            // Example: "photo1.jpg": { caption: "Our First Date", description: "This was amazing..." }
+            // Add your own captions below:
+        };
+        
+        // 6. AUTO-DETECT PHOTOS FROM FOLDER
+        // List your photo filenames here (the script will load them from the PHOTO_FOLDER)
+        // Supported formats: .jpg, .jpeg, .png, .gif, .webp
+        const PHOTO_FILES = [
+            "photo1.jpg",
+            "photo2.jpg",
+            "photo3.jpg",
+            "photo4.jpg",
+            // Add more filenames as needed
+            // Or leave empty and the script will try to detect all images
+        ];
+        
+        // ========================================
+        // END PERSONALIZATION SECTION
+        // ========================================
+        
+        // Build photo array from folder
+        const PHOTOS = PHOTO_FILES.map((filename, index) => {
+            const customCaption = PHOTO_CAPTIONS[filename];
+            return {
+                src: `${PHOTO_FOLDER}/${filename}`,
+                caption: customCaption?.caption || `Memory ${index + 1}`,
+                description: customCaption?.description || `A beautiful moment we shared together 💕`
+            };
+        });
+        
+        // Letter content
+        const letters = {
+            tired: {
+                title: "When You're Tired 😴",
+                content: `
+                    <p>Kari, My love,</p>
+                    
+                    <p>I know you're going through a lot, you're exhausted right now and I wish I could make you feel better and make everything easier for you.</p>
+                    
+                    <p>You're hardworking and you're doing your best but remember that you can take time for yourself, you're taking everything on your shoulder and it's okay to rest.</p>
+                    
+                    <p>Please close your eyes, take a deep breath and I will be two kisses away from you.</p>
+                    
+                    <p>Tomorrow will be here soon and you're gonna face it beautifully as you always do.</p>
+                    
+                    <p>Rest well, vida mía, and I love you (You know the distance between ...)</p>
+                    
+                    <p style="text-align: right; font-style: italic; margin-top: 30px;">Forever yours,<br>Seif ❤️</p>
+                `
+            },
+            upset: {
+                title: "When You're Upset 😤",
+                content: `
+                    <p>Hola,</p>
+                    
+                    <p>I mean I understand you're mad and you're so right.</p>
+                    
+                    <p>Just remember you can call me for any of your battles and I will make sure to fight with you.</p>
+                    
+                    <p>You're not alone, and if you're annoyed by me, just let me know and I will castigado myself.</p>
+                    
+                    <p>Please take a moment for yourself amor and remember this will pass soon.</p>
+                    
+                    <p>I Love you and I know you will handle this well, you always do.</p>
+                    
+                    <p style="text-align: right; font-style: italic; margin-top: 30px;">Love always ❤️</p>
+                `
+            },
+            miss: {
+                title: "When You Miss Me 💕",
+                content: `
+                    <p>Darling,</p>
+                    
+                    <p>I miss you so much it hurts.</p>
+                    
+                    <p>Even when we're far I am never far from you, you're always in my head, every little thing reminds me of you, the songs I hear, the smells I notice and random moments we spent together.</p>
+                    
+                    <p>I miss you, I miss being in the same room as you but know that I will be here soon.</p>
+                    
+                    <p>Until we're together again, hold onto this: you are loved, you are cherished, and you are always, always in my heart.</p>
+                    
+                    <p>I can't wait to see you again and hold you close.</p>
+                    
+                    <p style="text-align: right; font-style: italic; margin-top: 30px;">Missing you endlessly ❤️</p>
+                `
+            },
+            french: {
+                title: "When You Feel A Bit French 🇫🇷",
+                content: `
+                    <div style="text-align: center;">
+                        <p style="font-size: 2em; color: #ff1493; margin-bottom: 10px;">
+                            <strong>🇫🇷 Petite Leçon de Français 🇫🇷</strong>
+                        </p>
+                        <p style="font-size: 1.3em; color: #ff69b4; font-style: italic; margin-bottom: 40px;">
+                            Pour Mon Amour Karina 💙✨
+                        </p>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-bottom: 40px;">
+                        <div style="background: linear-gradient(135deg, #fff5f8 0%, #ffe9f5 100%); padding: 25px; border-radius: 15px; border-left: 5px solid #ff69b4;">
+                            <h3 style="color: #ff1493; margin-bottom: 15px; text-align: center;">💕 Les Mots Doux</h3>
+                            <p style="margin: 8px 0;"><strong>Mon amour</strong> - My love</p>
+                            <p style="margin: 8px 0;"><strong>Ma chérie</strong> - My darling</p>
+                            <p style="margin: 8px 0;"><strong>Mon cœur</strong> - My heart</p>
+                            <p style="margin: 8px 0;"><strong>Ma belle</strong> - My beautiful</p>
+                            <p style="margin: 8px 0;"><strong>Mon trésor</strong> - My treasure</p>
+                            <p style="margin: 8px 0;"><strong>Ma vie</strong> - My life</p>
+                            <p style="margin: 8px 0;"><strong>Mon ange</strong> - My angel</p>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #fff5f8 0%, #ffe9f5 100%); padding: 25px; border-radius: 15px; border-left: 5px solid #ff1493;">
+                            <h3 style="color: #ff1493; margin-bottom: 15px; text-align: center;">💖 Les Phrases</h3>
+                            <p style="margin: 8px 0;"><strong>Je t'aime</strong> - I love you</p>
+                            <p style="margin: 8px 0;"><strong>Tu me manques</strong> - I miss you</p>
+                            <p style="margin: 8px 0;"><strong>Tu es belle</strong> - You are beautiful</p>
+                            <p style="margin: 8px 0;"><strong>Je pense à toi</strong> - I'm thinking of you</p>
+                            <p style="margin: 8px 0;"><strong>Tu es tout pour moi</strong> - You are everything</p>
+                            <p style="margin: 8px 0;"><strong>Je suis fou de toi</strong> - I'm crazy about you</p>
+                            <p style="margin: 8px 0;"><strong>Mon cœur bat pour toi</strong> - My heart beats for you</p>
+                        </div>
+                    </div>
+
+                    <div style="background: linear-gradient(135deg, #fff 0%, #fff5f8 100%); padding: 30px; border-radius: 20px; border: 3px solid #ff69b4; box-shadow: 0 10px 30px rgba(255,105,180,0.3); margin: 30px auto; max-width: 600px;">
+                        <h3 style="color: #ff1493; text-align: center; margin-bottom: 20px; font-size: 1.5em;">
+                            ✨ Pour Pratiquer ✨
+                        </h3>
+                        <p style="font-size: 1.15em; line-height: 2; color: #5a3a4a; text-align: center;">
+                            <strong style="color: #ff1493;">Ma chérie Karina,</strong><br><br>
+                            Je t'aime plus que tout au monde. Tu es la plus belle femme que j'ai jamais vue. 
+                            Chaque jour avec toi est un cadeau. Tu illumines ma vie et mon cœur bat seulement pour toi. 
+                            Je pense à toi chaque seconde. Tu me manques tellement quand tu n'es pas là.
+                        </p>
+                        <div style="margin-top: 25px; padding-top: 25px; border-top: 2px dashed #ffc1e0;">
+                            <p style="font-size: 0.95em; line-height: 1.8; color: #ff69b4; text-align: center; font-style: italic;">
+                                <strong>Translation:</strong><br>
+                                My darling Karina, I love you more than anything in the world. You are the most beautiful woman I have ever seen. 
+                                Every day with you is a gift. You light up my life and my heart beats only for you. 
+                                I think of you every second. I miss you so much when you're not here.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div style="background: linear-gradient(135deg, #fff5f8 0%, #ffe9f5 100%); padding: 20px; border-radius: 15px; margin-top: 30px; text-align: center;">
+                        <h3 style="color: #ff1493; margin-bottom: 15px;">✨ Compliments & More ✨</h3>
+                        <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-top: 20px;">
+                            <span style="background: white; padding: 10px 20px; border-radius: 25px; border: 2px solid #ffb3d9; color: #ff1493; font-weight: bold;">Tu as de beaux yeux</span>
+                            <span style="background: white; padding: 10px 20px; border-radius: 25px; border: 2px solid #ffb3d9; color: #ff1493; font-weight: bold;">Ton sourire est magnifique</span>
+                            <span style="background: white; padding: 10px 20px; border-radius: 25px; border: 2px solid #ffb3d9; color: #ff1493; font-weight: bold;">Tu es extraordinaire</span>
+                            <span style="background: white; padding: 10px 20px; border-radius: 25px; border: 2px solid #ffb3d9; color: #ff1493; font-weight: bold;">Tu es parfaite</span>
+                            <span style="background: white; padding: 10px 20px; border-radius: 25px; border: 2px solid #ffb3d9; color: #ff1493; font-weight: bold;">Tu es ma raison de vivre</span>
+                        </div>
+                    </div>
+
+                    <p style="text-align: center; font-style: italic; margin-top: 40px; font-size: 1.4em; color: #ff1493;">
+                        Continue d'apprendre, mon amour! 💕<br>
+                        <small style="color: #ff69b4;">(Keep learning, my love!)</small>
+                    </p>
+                `
+            },
+            date: {
+                title: "Our Special Date 💑",
+                content: `
+                    <p>My love,</p>
+                    
+                    <p>I have been counting for days / weeks for this moment to arrive, every second, every hour I was thinking of this exact same place.</p>
+                    
+                    <p>Every moment with you is a gift, but tonight is extra special. I've been thinking about this evening for so long, planning and dreaming about seeing your smile.</p>
+                    
+                    <p>Thank you for being you. Thank you for choosing to spend your time with me. Thank you for making my life infinitely more beautiful.</p>
+                    
+                    <p><strong>But also this date made me understand that I want you and love you like never before.</strong></p>
+                    
+                    <p><strong>I want this to be as concrete as we can and I want you to be my girlfriend.</strong></p>
+                    
+                    <p>I am maybe not what you imagined your prince to be but maybe a beast can be the best thing for the beauty.</p>
+                    
+                    <p>I offer you this ring as a promise that one day you will get a bigger better one and we will see each other as my bride in 3 weddings all around the world.</p>
+                    
+                    <p>I love you more than words could ever express.</p>
+                    
+                    <p style="text-align: right; font-style: italic; margin-top: 30px;">Yours forever and always,<br>Seif ❤️</p>
+                `
+            }
+        };
+
+        // Carousel functionality
+        let currentSlide = 0;
+
+        function loadCarousel() {
+            const slidesContainer = document.getElementById('carouselSlides');
+            const dotsContainer = document.getElementById('carouselDots');
+            
+            if (PHOTOS.length === 0) {
+                slidesContainer.innerHTML = '<div class="carousel-slide"><div style="padding: 100px; text-align: center; color: #ff69b4;"><h3>No photos found!</h3><p>Please add photos to the "' + PHOTO_FOLDER + '" folder</p></div></div>';
+                return;
+            }
+            
+            // Create slides
+            PHOTOS.forEach((photo, index) => {
+                const slide = document.createElement('div');
+                slide.className = 'carousel-slide';
+                slide.innerHTML = `
+                    <img src="${photo.src}" alt="${photo.caption}" onerror="this.src='https://via.placeholder.com/900x500/ff69b4/ffffff?text=Photo+${index + 1}'">
+                    <div class="carousel-caption">
+                        <p>${photo.description}</p>
+                    </div>
+                `;
+                slidesContainer.appendChild(slide);
+                
+                // Create dot
+                const dot = document.createElement('div');
+                dot.className = 'carousel-dot' + (index === 0 ? ' active' : '');
+                dot.onclick = () => goToSlide(index);
+                dotsContainer.appendChild(dot);
+            });
+            
+            updateCounter();
+        }
+
+        function changeSlide(direction) {
+            currentSlide += direction;
+            if (currentSlide < 0) currentSlide = PHOTOS.length - 1;
+            if (currentSlide >= PHOTOS.length) currentSlide = 0;
+            updateCarousel();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateCarousel();
+        }
+
+        function updateCarousel() {
+            const slidesContainer = document.getElementById('carouselSlides');
+            const dots = document.querySelectorAll('.carousel-dot');
+            
+            slidesContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+            
+            updateCounter();
+        }
+
+        function updateCounter() {
+            document.getElementById('carouselCounter').textContent = 
+                `${currentSlide + 1} / ${PHOTOS.length}`;
+        }
+
+        // Auto-play carousel
+        let autoPlayInterval = setInterval(() => changeSlide(1), 5000);
+
+        // Pause auto-play on hover
+        document.addEventListener('DOMContentLoaded', () => {
+            const carouselContainer = document.querySelector('.carousel-container');
+            if (carouselContainer) {
+                carouselContainer.addEventListener('mouseenter', () => {
+                    clearInterval(autoPlayInterval);
+                });
+                carouselContainer.addEventListener('mouseleave', () => {
+                    autoPlayInterval = setInterval(() => changeSlide(1), 5000);
+                });
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+        });
+
+        function openLetter(type) {
+            const letter = letters[type];
+            document.getElementById('modalTitle').textContent = letter.title;
+            document.getElementById('modalBody').innerHTML = letter.content;
+            document.getElementById('modal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+
+        function showLockedMessage(event) {
+            event.stopPropagation();
+            event.preventDefault();
+            document.getElementById('lockedModal').classList.add('active');
+        }
+
+        function closeLockedModal() {
+            document.getElementById('lockedModal').classList.remove('active');
+        }
+
+        function openDateLetter() {
+            const now = new Date().getTime();
+            const targetDate = new Date(DATE_TIME).getTime();
+            
+            if (now >= targetDate) {
+                openLetter('date');
+            } else {
+                showLockedMessage(event);
+            }
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        document.getElementById('lockedModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLockedModal();
+            }
+        });
+
+        // Countdown Timer
+        const targetDate = new Date(DATE_TIME).getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                document.getElementById('countdown').style.display = 'none';
+                document.getElementById('dateArrived').classList.add('active');
+                document.getElementById('dateLock').classList.add('hidden');
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+            document.getElementById('seconds').textContent = seconds;
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        // Initialize carousel
+        loadCarousel();
+
+        function updatePersonalizedText() {
+            document.querySelector('.recipient-name').textContent = `For Vida Mía: ${HER_NAME} 💕`;
+        }
+
+        updatePersonalizedText();
+    </script>
+</body>
+</html>
