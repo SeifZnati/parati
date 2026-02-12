@@ -747,9 +747,10 @@
         const DATE_LOCATION = "our favorite restaurant";
         
         // 4. PHOTO FOLDER PATH
-        // Put all your photos in a folder (e.g., "Pictures") in the same directory as this HTML file
-        // The script will automatically load ALL images from this folder
-        const PHOTO_FOLDER = "Pictures"; // Change this to your folder name
+        // IMPORTANT: Make sure the Pictures folder is in the SAME folder as this HTML file
+        // If your HTML is at: C:/Users/You/parati/open-when.html
+        // Then Pictures should be at: C:/Users/You/parati/Pictures/
+        const PHOTO_FOLDER = "./Pictures"; // ./ means "same folder as this HTML file"
         
         // 5. PHOTO CAPTIONS (Optional)
         // You can add custom captions for specific photos by filename
@@ -926,24 +927,33 @@
 
         // Carousel functionality
         let currentSlide = 0;
-        let PHOTOS = [];
+        // Hardcoded photo array with all 20 images
+        const PHOTOS = [
+            { src: "Pictures/Picture (1).jpeg", caption: "Memory 1", description: "" },
+            { src: "Pictures/Picture (2).jpeg", caption: "Memory 2", description: "" },
+            { src: "Pictures/Picture (3).jpeg", caption: "Memory 3", description: "" },
+            { src: "Pictures/Picture (4).jpeg", caption: "Memory 4", description: "" },
+            { src: "Pictures/Picture (5).jpeg", caption: "Memory 5", description: "" },
+            { src: "Pictures/Picture (6).jpeg", caption: "Memory 6", description: "" },
+            { src: "Pictures/Picture (7).jpeg", caption: "Memory 7", description: "" },
+            { src: "Pictures/Picture (8).jpeg", caption: "Memory 8", description: "" },
+            { src: "Pictures/Picture (9).jpeg", caption: "Memory 9", description: "" },
+            { src: "Pictures/Picture (10).jpeg", caption: "Memory 10", description: "" },
+            { src: "Pictures/Picture (11).jpeg", caption: "Memory 11", description: "" },
+            { src: "Pictures/Picture (12).jpeg", caption: "Memory 12", description: "" },
+            { src: "Pictures/Picture (13).jpeg", caption: "Memory 13", description: "" },
+            { src: "Pictures/Picture (14).jpeg", caption: "Memory 14", description: "" },
+            { src: "Pictures/Picture (15).jpeg", caption: "Memory 15", description: "" },
+            { src: "Pictures/Picture (16).jpeg", caption: "Memory 16", description: "" },
+            { src: "Pictures/Picture (17).jpeg", caption: "Memory 17", description: "" },
+            { src: "Pictures/Picture (18).jpeg", caption: "Memory 18", description: "" },
+            { src: "Pictures/Picture (19).jpeg", caption: "Memory 19", description: "" },
+            { src: "Pictures/Picture (20).jpeg", caption: "Memory 20", description: "" }
+        ];
 
         function loadCarousel() {
             const slidesContainer = document.getElementById('carouselSlides');
             const dotsContainer = document.getElementById('carouselDots');
-            
-            // Generate photo array from NUMBER_OF_PHOTOS
-            if (NUMBER_OF_PHOTOS > 0) {
-                for (let i = 1; i <= NUMBER_OF_PHOTOS; i++) {
-                    const filename = `Picture (${i}).${PHOTO_EXTENSION}`;
-                    const customCaption = PHOTO_CAPTIONS[filename];
-                    PHOTOS.push({
-                        src: `${PHOTO_FOLDER}/${filename}`,
-                        caption: customCaption?.caption || `Memory ${i}`,
-                        description: customCaption?.description || ''
-                    });
-                }
-            }
             
             if (PHOTOS.length === 0) {
                 slidesContainer.innerHTML = `
