@@ -755,9 +755,15 @@
         // You can add custom captions for specific photos by filename
         // If a photo doesn't have a caption here, it will use a generic one
         const PHOTO_CAPTIONS = {
-            // Example: "photo1.jpg": { caption: "Our First Date", description: "This was amazing..." }
+            // Example: "Picture (1).jpeg": { caption: "Our First Date", description: "This was amazing..." }
             // Add your own captions below:
         };
+        
+        // 6. HOW MANY PHOTOS DO YOU HAVE?
+        // Set this to the number of photos in your Pictures folder
+        // Your photos should be named: Picture (1).jpeg, Picture (2).jpeg, Picture (3).jpeg, etc.
+        const NUMBER_OF_PHOTOS = 20; // Change this to your number of photos
+        const PHOTO_EXTENSION = "jpeg"; // Change to "jpeg", "png", "JPEG", etc. if needed
         
         // ========================================
         // END PERSONALIZATION SECTION
@@ -922,100 +928,59 @@
         let currentSlide = 0;
         let PHOTOS = [];
 
-        async function loadCarousel() {
+        function loadCarousel() {
             const slidesContainer = document.getElementById('carouselSlides');
             const dotsContainer = document.getElementById('carouselDots');
             
-            // Try to automatically load all images from the Pictures folder
-            try {
-                // Common image extensions
-                const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'JPG', 'JPEG', 'PNG', 'GIF', 'WEBP'];
-                const imagePromises = [];
-                
-                // Try loading images with common naming patterns
-                // This will attempt to load: 1.jpg, 2.jpg, etc. and photo1.jpg, photo2.jpg, etc.
-                for (let i = 1; i <= 100; i++) {
-                    // Try different naming patterns
-                    const patterns = [
-                        `${i}.jpg`,
-                        `${i}.jpeg`,
-                        `${i}.png`,
-                        `photo${i}.jpg`,
-                        `photo${i}.jpeg`,
-                        `photo${i}.png`,
-                        `IMG_${String(i).padStart(4, '0')}.jpg`,
-                        `IMG_${String(i).padStart(4, '0')}.JPG`,
-                    ];
-                    
-                    patterns.forEach(filename => {
-                        imagePromises.push(
-                            new Promise((resolve) => {
-                                const img = new Image();
-                                img.onload = () => {
-                                    resolve({
-                                        src: `${PHOTO_FOLDER}/${filename}`,
-                                        caption: PHOTO_CAPTIONS[filename]?.caption || `Memory ${PHOTOS.length + 1}`,
-                                        description: PHOTO_CAPTIONS[filename]?.description || ''
-                                    });
-                                };
-                                img.onerror = () => resolve(null);
-                                img.src = `${PHOTO_FOLDER}/${filename}`;
-                            })
-                        );
+            // Generate photo array from NUMBER_OF_PHOTOS
+            if (NUMBER_OF_PHOTOS > 0) {
+                for (let i = 1; i <= NUMBER_OF_PHOTOS; i++) {
+                    const filename = `Picture (${i}).${PHOTO_EXTENSION}`;
+                    const customCaption = PHOTO_CAPTIONS[filename];
+                    PHOTOS.push({
+                        src: `${PHOTO_FOLDER}/${filename}`,
+                        caption: customCaption?.caption || `Memory ${i}`,
+                        description: customCaption?.description || ''
                     });
                 }
-                
-                const results = await Promise.all(imagePromises);
-                PHOTOS = results.filter(photo => photo !== null);
-                
-                if (PHOTOS.length === 0) {
-                    slidesContainer.innerHTML = `
-                        <div class="carousel-slide">
-                            <div style="padding: 100px 20px; text-align: center; color: #ff69b4;">
-                                <h3 style="margin-bottom: 20px;">📸 No Photos Found</h3>
-                                <p style="margin-bottom: 15px;">Please create a folder called "<strong>${PHOTO_FOLDER}</strong>" in the same directory as this HTML file.</p>
-                                <p style="margin-bottom: 15px;">Then add your photos to that folder.</p>
-                                <p style="font-size: 0.9em; color: #ff1493;">Supported formats: JPG, JPEG, PNG, GIF, WEBP</p>
-                                <p style="font-size: 0.9em; margin-top: 20px;">The page will automatically detect all images in the folder!</p>
-                            </div>
-                        </div>
-                    `;
-                    return;
-                }
-                
-                // Create slides for found photos
-                PHOTOS.forEach((photo, index) => {
-                    const slide = document.createElement('div');
-                    slide.className = 'carousel-slide';
-                    slide.innerHTML = `
-                        <img src="${photo.src}" alt="${photo.caption}">
-                        <div class="carousel-caption">
-                            <h3>${photo.caption}</h3>
-                            ${photo.description ? `<p>${photo.description}</p>` : ''}
-                        </div>
-                    `;
-                    slidesContainer.appendChild(slide);
-                    
-                    // Create dot
-                    const dot = document.createElement('div');
-                    dot.className = 'carousel-dot' + (index === 0 ? ' active' : '');
-                    dot.onclick = () => goToSlide(index);
-                    dotsContainer.appendChild(dot);
-                });
-                
-                updateCounter();
-                
-            } catch (error) {
-                console.error('Error loading photos:', error);
+            }
+            
+            if (PHOTOS.length === 0) {
                 slidesContainer.innerHTML = `
                     <div class="carousel-slide">
                         <div style="padding: 100px 20px; text-align: center; color: #ff69b4;">
-                            <h3>Could not load photos</h3>
-                            <p>Make sure the "${PHOTO_FOLDER}" folder exists and contains images.</p>
+                            <h3 style="margin-bottom: 20px;">📸 No Photos Configured</h3>
+                            <p style="margin-bottom: 15px;">Please set <strong>NUMBER_OF_PHOTOS</strong> in the script section.</p>
+                            <p style="margin-bottom: 15px;">Your photos should be named: 1.${PHOTO_EXTENSION}, 2.${PHOTO_EXTENSION}, 3.${PHOTO_EXTENSION}, etc.</p>
+                            <p style="margin-bottom: 15px;">And placed in the "<strong>${PHOTO_FOLDER}</strong>" folder.</p>
+                            <p style="font-size: 0.9em; color: #ff1493; margin-top: 20px;">Open the HTML file in a text editor and find NUMBER_OF_PHOTOS near the top of the script section!</p>
                         </div>
                     </div>
                 `;
+                return;
             }
+            
+            // Create slides for photos
+            PHOTOS.forEach((photo, index) => {
+                const slide = document.createElement('div');
+                slide.className = 'carousel-slide';
+                slide.innerHTML = `
+                    <img src="${photo.src}" alt="${photo.caption}" onerror="this.onerror=null; this.src='https://via.placeholder.com/900x500/ff69b4/ffffff?text=Photo+${index + 1}+not+found';">
+                    <div class="carousel-caption">
+                        <h3>${photo.caption}</h3>
+                        ${photo.description ? `<p>${photo.description}</p>` : ''}
+                    </div>
+                `;
+                slidesContainer.appendChild(slide);
+                
+                // Create dot
+                const dot = document.createElement('div');
+                dot.className = 'carousel-dot' + (index === 0 ? ' active' : '');
+                dot.onclick = () => goToSlide(index);
+                dotsContainer.appendChild(dot);
+            });
+            
+            updateCounter();
         }
 
         function changeSlide(direction) {
