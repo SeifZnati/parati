@@ -294,6 +294,26 @@
             50% { transform: translateY(-20px); }
         }
 
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-50px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
         .floating-hearts {
             position: fixed;
             pointer-events: none;
@@ -671,6 +691,7 @@
             </div>
         </div>
 
+        <!-- Date Letter Section with Countdown -->
         <div class="countdown-container">
             <div class="countdown-title">🌹 Our Special Date 🌹</div>
             <div class="countdown-timer" id="countdown">
@@ -743,7 +764,7 @@
         const SPOTIFY_PLAYLIST_ID = "7eQrZWi6JfNBZcfVJP2HJI";
         
         // 3. DATE DETAILS
-        const DATE_TIME = "February 15, 2026 22:30:00";
+        const DATE_TIME = "February 15, 2026 22:00:00";
         const DATE_LOCATION = "our favorite restaurant";
         
         // 4. PHOTO FOLDER PATH
@@ -904,23 +925,87 @@
                 content: `
                     <p>My love,</p>
                     
-                    <p>I have been counting for days / weeks for this moment to arrive, every second, every hour I was thinking of this exact same place.</p>
+                    <p>I have been counting for weeks for this moment to arrive, every second, every hour I was thinking of this exact thing happening again and again in my mind.</p>
                     
-                    <p>Every moment with you is a gift, but tonight is extra special. I've been thinking about this evening for so long, planning and dreaming about seeing your smile.</p>
+                    <p>Every moment with you is a gift from the universe, but tonight is extra special. I've been thinking about this evening for so long, planning and dreaming about seeing your smile.</p>
                     
                     <p>Thank you for being you. Thank you for choosing to spend your time with me. Thank you for making my life infinitely more beautiful.</p>
                     
-                    <p><strong>But also this date made me understand that I want you and love you like never before.</strong></p>
+                    <p><strong>You are the reason I am keeping up in life and feel better like no other time.</strong> <em>Tu es ma lumière dans l'obscurité. Eres mi razón de ser.</em> You've given me hope and happiness I never knew existed.</p>
                     
-                    <p><strong>I want this to be as concrete as we can and I want you to be my girlfriend.</strong></p>
+                    <p>Sometimes, when you're not there, I look at your desk and I imagine myself next to you, just holding your hands. It means everything to me. <em>Je rêve de ces moments simples avec toi.</em></p>
                     
-                    <p>I am maybe not what you imagined your prince to be but maybe a beast can be the best thing for the beauty.</p>
+                    <p>I dream of your laugh and I hear you always in my mind, even when we're far. <em>Tu risa es mi canción favorita.</em></p>
+                    
+                    <p>I love teaching you French because that means more time together, and I absolutely love hearing you speak. Every word you try, every phrase you practice is wonderful.</p>
+                    
+                    <p>I love playing LinkedIn with the smartest woman ever. Watching you think and be the smartest is one of my favorite things.</p>
+                    
+                    <p>I love talking about you with everyone because they should know about the best person ever. <em>Tu es la plus belle personne que je connaisse</em> and I want the whole world to know how amazing you are.</p>
+                    
+                    <p><strong>I will follow you everywhere, even to the horrible Germany if I need to.</strong></p>
+                    
+                    <p><strong>And I will support you in everything.</strong> Your dreams are my dreams. Your goals are my goals.</p>
+                    
+                    <p><strong>This date made me understand that I want you and love you like never before.</strong></p>
+                    
+                    <p><strong>I want this to be as concrete as we can.</strong></p>
+                    
+                    <p>I am maybe not what you imagined your prince to be but maybe a beast can be the best thing for this beauty (You that's why I wanted us to watch the movie I hope we did).</p>
                     
                     <p>I offer you this ring as a promise that one day you will get a bigger better one and we will see each other as my bride in 3 weddings all around the world.</p>
                     
-                    <p>I love you more than words could ever express.</p>
+                    <p>I love you more than words could ever express. <em>Je t'aime plus que tout au monde. Te amo más de lo que las palabras pueden expresar.</em></p>
                     
-                    <p style="text-align: right; font-style: italic; margin-top: 30px;">Yours forever and always,<br>Seif ❤️</p>
+                    <div id="proposalSection" style="margin-top: 50px; text-align: center;">
+                        <h2 style="font-size: 2.5em; color: #ff1493; margin-bottom: 30px; text-shadow: 2px 2px 4px rgba(255,182,193,0.5);">
+                            ¿Quieres ser mi novia? 💕
+                        </h2>
+                        <div style="display: flex; gap: 20px; justify-content: center; align-items: center; flex-wrap: wrap;">
+                            <button id="yesBtn" onclick="handleYes()" style="
+                                background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
+                                color: white;
+                                border: 3px solid white;
+                                padding: 20px 40px;
+                                font-size: 1.5em;
+                                border-radius: 50px;
+                                cursor: pointer;
+                                box-shadow: 0 10px 30px rgba(255,105,180,0.5);
+                                transition: all 0.3s ease;
+                                font-weight: bold;
+                            ">
+                                Sí ❤️
+                            </button>
+                            <button id="noBtn" onclick="handleNo()" style="
+                                background: linear-gradient(135deg, #ffc1e0 0%, #ffb3d9 100%);
+                                color: #ff1493;
+                                border: 3px solid #ff69b4;
+                                padding: 20px 40px;
+                                font-size: 1.5em;
+                                border-radius: 50px;
+                                cursor: pointer;
+                                box-shadow: 0 5px 15px rgba(255,182,193,0.4);
+                                transition: all 0.3s ease;
+                                font-weight: bold;
+                            ">
+                                No
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="celebrationSection" style="display: none; margin-top: 50px; text-align: center;">
+                        <h2 style="font-size: 3em; color: #ff1493; margin-bottom: 20px; animation: pulse 1s ease-in-out infinite;">
+                            🎉 ¡SÍ DIJO QUE SÍ! 🎉
+                        </h2>
+                        <p style="font-size: 1.5em; color: #ff69b4; margin-bottom: 30px;">
+                            ¡Ahora somos novios oficialmente! 💑
+                        </p>
+                        <div style="font-size: 4em; animation: float 2s ease-in-out infinite;">
+                            💕💖💗💓💝💞
+                        </div>
+                    </div>
+                    
+                    <p style="text-align: right; font-style: italic; margin-top: 30px; display: none;" id="signatureDate">Yours forever and always,<br>Seif ❤️</p>
                 `
             }
         };
@@ -1052,8 +1137,113 @@
             document.getElementById('modal').classList.add('active');
         }
 
+        // Proposal interaction variables
+        let noClickCount = 0;
+        const maxNoClicks = 5;
+
+        function handleYes() {
+            // Hide the proposal section
+            document.getElementById('proposalSection').style.display = 'none';
+            // Show the celebration section
+            document.getElementById('celebrationSection').style.display = 'block';
+            // Show the signature
+            document.getElementById('signatureDate').style.display = 'block';
+            
+            // Create confetti effect
+            createConfetti();
+        }
+
+        function handleNo() {
+            noClickCount++;
+            const yesBtn = document.getElementById('yesBtn');
+            const noBtn = document.getElementById('noBtn');
+            
+            if (noClickCount >= maxNoClicks) {
+                // After 5 clicks, No button disappears completely
+                noBtn.style.display = 'none';
+                yesBtn.style.fontSize = '3em';
+                yesBtn.style.padding = '40px 80px';
+                yesBtn.innerHTML = 'Sí ❤️❤️❤️';
+                return;
+            }
+            
+            // Calculate new sizes
+            const yesSize = 1.5 + (noClickCount * 0.3); // Grows from 1.5em to 3em
+            const noSize = 1.5 - (noClickCount * 0.2); // Shrinks from 1.5em to 0.5em
+            const yesPadding = 20 + (noClickCount * 8); // Grows padding
+            const noPadding = 20 - (noClickCount * 3); // Shrinks padding
+            
+            // Update Yes button (gets bigger)
+            yesBtn.style.fontSize = yesSize + 'em';
+            yesBtn.style.padding = yesPadding + 'px ' + (yesPadding * 2) + 'px';
+            
+            // Update No button (gets smaller)
+            noBtn.style.fontSize = noSize + 'em';
+            noBtn.style.padding = Math.max(5, noPadding) + 'px ' + Math.max(10, noPadding * 2) + 'px';
+            
+            // Add desperate messages
+            const messages = [
+                "¿Estás segura? 🥺",
+                "Por favor, reconsidéralo 💔",
+                "Mi corazón se está rompiendo... 😢",
+                "¿De verdad quieres romperme el corazón? 💔💔",
+                "Solo queda una opción... ❤️"
+            ];
+            
+            // Show message below buttons
+            let messageDiv = document.getElementById('desperateMessage');
+            if (!messageDiv) {
+                messageDiv = document.createElement('div');
+                messageDiv.id = 'desperateMessage';
+                messageDiv.style.cssText = 'margin-top: 20px; font-size: 1.2em; color: #ff1493; font-style: italic;';
+                document.getElementById('proposalSection').appendChild(messageDiv);
+            }
+            messageDiv.textContent = messages[noClickCount - 1];
+        }
+
+        function createConfetti() {
+            const colors = ['#ff69b4', '#ff1493', '#ffc1e0', '#ffb3d9', '#ff69b4'];
+            const symbols = ['❤️', '💕', '💖', '💗', '💓', '💝', '💞'];
+            
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                    confetti.style.cssText = `
+                        position: fixed;
+                        left: ${Math.random() * 100}%;
+                        top: -50px;
+                        font-size: ${Math.random() * 30 + 20}px;
+                        opacity: ${Math.random() * 0.5 + 0.5};
+                        pointer-events: none;
+                        z-index: 9999;
+                        animation: confettiFall ${Math.random() * 3 + 2}s linear forwards;
+                    `;
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 5000);
+                }, i * 50);
+            }
+        }
+
         function closeModal() {
             document.getElementById('modal').classList.remove('active');
+            // Reset proposal state when modal closes
+            noClickCount = 0;
+            const yesBtn = document.getElementById('yesBtn');
+            const noBtn = document.getElementById('noBtn');
+            if (yesBtn) {
+                yesBtn.style.fontSize = '1.5em';
+                yesBtn.style.padding = '20px 40px';
+                yesBtn.innerHTML = 'Sí ❤️';
+            }
+            if (noBtn) {
+                noBtn.style.fontSize = '1.5em';
+                noBtn.style.padding = '20px 40px';
+                noBtn.style.display = 'inline-block';
+            }
+            const messageDiv = document.getElementById('desperateMessage');
+            if (messageDiv) messageDiv.remove();
         }
 
         function showLockedMessage(event) {
@@ -1076,19 +1266,6 @@
                 showLockedMessage(event);
             }
         }
-
-        // Close modal when clicking outside
-        document.getElementById('modal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeModal();
-            }
-        });
-
-        document.getElementById('lockedModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeLockedModal();
-            }
-        });
 
         // Countdown Timer
         const targetDate = new Date(DATE_TIME).getTime();
@@ -1117,6 +1294,19 @@
 
         updateCountdown();
         setInterval(updateCountdown, 1000);
+
+        // Close modal when clicking outside
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        document.getElementById('lockedModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLockedModal();
+            }
+        });
 
         // Initialize carousel
         loadCarousel();
