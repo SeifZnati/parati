@@ -5,12 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Open When... ❤️</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Georgia', serif;
             background: linear-gradient(135deg, #ffeef8 0%, #ffc1e0 50%, #ffb3d9 100%);
@@ -18,609 +13,218 @@
             padding: 20px;
             color: #5a3a4a;
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        header {
-            text-align: center;
-            color: #ff69b4;
-            padding: 40px 20px;
-            margin-bottom: 40px;
-        }
-
-        header h1 {
-            font-size: 3em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(255,182,193,0.5);
-            color: #ff1493;
-        }
-
-        .recipient-name {
-            font-size: 1.5em;
-            color: #ff1493;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .relationship-date {
-            font-size: 1em;
-            color: #ff69b4;
-            margin-top: 10px;
-            font-style: italic;
-        }
-
-        header p {
-            font-size: 1.2em;
-            color: #ff69b4;
-            opacity: 0.95;
-        }
-
-        .letters-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-
+        .container { max-width: 1200px; margin: 0 auto; }
+        header { text-align: center; color: #ff69b4; padding: 40px 20px; margin-bottom: 40px; }
+        header h1 { font-size: 3em; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(255,182,193,0.5); color: #ff1493; }
+        .recipient-name { font-size: 1.5em; color: #ff1493; font-weight: bold; margin-bottom: 10px; }
+        header p { font-size: 1.2em; color: #ff69b4; opacity: 0.95; }
+        .letters-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-bottom: 40px; }
         .letter-card {
             background: linear-gradient(135deg, #fff 0%, #ffe9f5 100%);
-            border-radius: 20px;
-            padding: 30px;
+            border-radius: 20px; padding: 30px;
             box-shadow: 0 10px 30px rgba(255,105,180,0.3);
-            cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            border: 3px solid #ffb3d9;
+            cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative; overflow: hidden; border: 3px solid #ffb3d9;
         }
-
-        .letter-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 15px 40px rgba(255,105,180,0.5);
-            border-color: #ff69b4;
-        }
-
-        .letter-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(90deg, #ff69b4, #ff1493, #ff69b4, #ffc1e0, #ff69b4);
-        }
-
-        .letter-card::after {
-            content: '✨';
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 1.5em;
-            opacity: 0.3;
-        }
-
-        .letter-icon {
-            font-size: 3em;
-            margin-bottom: 15px;
-            display: block;
-        }
-
-        .letter-title {
-            font-size: 1.5em;
-            margin-bottom: 10px;
-            color: #ff1493;
-            font-weight: bold;
-        }
-
-        .letter-subtitle {
-            color: #ff69b4;
-            font-size: 0.9em;
-            font-style: italic;
-        }
-
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: linear-gradient(135deg, #fff 0%, #fff0f7 100%);
-            border-radius: 25px;
-            max-width: 700px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-            padding: 40px;
-            box-shadow: 0 20px 60px rgba(255,105,180,0.4);
-            border: 4px solid #ffb3d9;
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 2em;
-            cursor: pointer;
-            color: #ffb3d9;
-            background: none;
-            border: none;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: background 0.3s ease, color 0.3s ease;
-        }
-
-        .close-btn:hover {
-            background: #ffe9f5;
-            color: #ff1493;
-        }
-
-        .modal-header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #ffc1e0;
-        }
-
-        .modal-header h2 {
-            font-size: 2em;
-            color: #ff1493;
-            margin-bottom: 10px;
-        }
-
-        .modal-body {
-            line-height: 1.8;
-            font-size: 1.1em;
-        }
-
-        .modal-body img {
-            max-width: 100%;
-            border-radius: 10px;
-            margin: 20px 0;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        /* Countdown Timer Styles */
-        .countdown-container {
-            background: linear-gradient(135deg, #fff 0%, #ffe9f5 100%);
-            border-radius: 25px;
-            padding: 40px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(255,105,180,0.3);
-            margin-top: 30px;
-            border: 3px solid #ffb3d9;
-        }
-
-        .countdown-title {
-            font-size: 2em;
-            color: #ff1493;
-            margin-bottom: 20px;
-            text-shadow: 1px 1px 2px rgba(255,182,193,0.3);
-        }
-
-        .countdown-timer {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-
-        .time-unit {
-            background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 15px;
-            min-width: 100px;
-            box-shadow: 0 5px 15px rgba(255,105,180,0.4);
-            border: 2px solid rgba(255,255,255,0.3);
-        }
-
-        .time-value {
-            font-size: 3em;
-            font-weight: bold;
-            display: block;
-        }
-
-        .time-label {
-            font-size: 0.9em;
-            opacity: 0.9;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .date-arrived {
-            display: none;
-        }
-
-        .date-arrived.active {
-            display: block;
-        }
-
-        .date-arrived h3 {
-            color: #ff1493;
-            font-size: 2em;
-            margin-bottom: 20px;
-            text-shadow: 1px 1px 2px rgba(255,182,193,0.3);
-        }
-
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 2em;
-            }
-
-            .letter-card {
-                padding: 20px;
-            }
-
-            .modal-content {
-                padding: 30px 20px;
-            }
-
-            .time-unit {
-                min-width: 80px;
-                padding: 15px;
-            }
-
-            .time-value {
-                font-size: 2em;
-            }
-        }
-
-        /* Cute floating hearts animation */
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-
-        @keyframes confettiFall {
-            0% {
-                transform: translateY(-50px) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(100vh) rotate(720deg);
-                opacity: 0;
-            }
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-        }
-
-        .floating-hearts {
-            position: fixed;
-            pointer-events: none;
-            z-index: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        .heart {
-            position: absolute;
-            font-size: 20px;
-            opacity: 0.3;
-            animation: float 3s ease-in-out infinite;
-        }
-
+        .letter-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 15px 40px rgba(255,105,180,0.5); border-color: #ff69b4; }
+        .letter-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: linear-gradient(90deg, #ff69b4, #ff1493, #ff69b4, #ffc1e0, #ff69b4); }
+        .letter-card::after { content: '✨'; position: absolute; top: 10px; right: 10px; font-size: 1.5em; opacity: 0.3; }
+        .letter-icon { font-size: 3em; margin-bottom: 15px; display: block; }
+        .letter-title { font-size: 1.5em; margin-bottom: 10px; color: #ff1493; font-weight: bold; }
+        .letter-subtitle { color: #ff69b4; font-size: 0.9em; font-style: italic; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
+        .modal.active { display: flex; }
+        .modal-content { background: linear-gradient(135deg, #fff 0%, #fff0f7 100%); border-radius: 25px; max-width: 700px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; padding: 40px; box-shadow: 0 20px 60px rgba(255,105,180,0.4); border: 4px solid #ffb3d9; }
+        .close-btn { position: absolute; top: 15px; right: 15px; font-size: 2em; cursor: pointer; color: #ffb3d9; background: none; border: none; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: background 0.3s ease, color 0.3s ease; }
+        .close-btn:hover { background: #ffe9f5; color: #ff1493; }
+        .modal-header { text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #ffc1e0; }
+        .modal-header h2 { font-size: 2em; color: #ff1493; margin-bottom: 10px; }
+        .modal-body { line-height: 1.8; font-size: 1.1em; }
+        .countdown-container { background: linear-gradient(135deg, #fff 0%, #ffe9f5 100%); border-radius: 25px; padding: 40px; text-align: center; box-shadow: 0 10px 30px rgba(255,105,180,0.3); margin-top: 30px; border: 3px solid #ffb3d9; }
+        .countdown-title { font-size: 2em; color: #ff1493; margin-bottom: 20px; text-shadow: 1px 1px 2px rgba(255,182,193,0.3); }
+        .countdown-timer { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 20px; }
+        .time-unit { background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%); color: white; padding: 20px; border-radius: 15px; min-width: 100px; box-shadow: 0 5px 15px rgba(255,105,180,0.4); border: 2px solid rgba(255,255,255,0.3); }
+        .time-value { font-size: 3em; font-weight: bold; display: block; }
+        .time-label { font-size: 0.9em; opacity: 0.9; text-transform: uppercase; letter-spacing: 1px; }
+        .date-arrived { display: none; }
+        .date-arrived.active { display: block; }
+        .date-arrived h3 { color: #ff1493; font-size: 2em; margin-bottom: 20px; text-shadow: 1px 1px 2px rgba(255,182,193,0.3); }
+        @media (max-width: 768px) { header h1 { font-size: 2em; } .letter-card { padding: 20px; } .modal-content { padding: 30px 20px; } .time-unit { min-width: 80px; padding: 15px; } .time-value { font-size: 2em; } }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-20px); } }
+        @keyframes confettiFall { 0% { transform: translateY(-50px) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        .floating-hearts { position: fixed; pointer-events: none; z-index: 0; width: 100%; height: 100%; }
+        .heart { position: absolute; font-size: 20px; opacity: 0.3; animation: float 3s ease-in-out infinite; }
         .heart:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; }
         .heart:nth-child(2) { left: 20%; top: 80%; animation-delay: 0.5s; }
         .heart:nth-child(3) { left: 80%; top: 30%; animation-delay: 1s; }
         .heart:nth-child(4) { left: 90%; top: 70%; animation-delay: 1.5s; }
         .heart:nth-child(5) { left: 50%; top: 10%; animation-delay: 2s; }
         .heart:nth-child(6) { left: 30%; top: 50%; animation-delay: 2.5s; }
+        .date-card-container { position: relative; display: inline-block; width: 100%; }
+        .locked-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.3); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-radius: 20px; display: flex; align-items: center; justify-content: center; z-index: 10; cursor: not-allowed; }
+        .locked-overlay.hidden { display: none; }
+        .lock-icon { font-size: 4em; color: #ff1493; text-shadow: 0 0 20px rgba(255,20,147,0.5); animation: lock-pulse 2s ease-in-out infinite; }
+        @keyframes lock-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        .locked-message { background: linear-gradient(135deg, #fff 0%, #ffe9f5 100%); border: 3px solid #ff69b4; border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 10px 30px rgba(255,105,180,0.4); }
+        .locked-message h3 { color: #ff1493; font-size: 1.8em; margin-bottom: 15px; }
+        .locked-message p { color: #ff69b4; font-size: 1.2em; font-style: italic; }
+        .spotify-player-container { background: linear-gradient(135deg, #fff 0%, #ffe9f5 100%); border-radius: 25px; padding: 30px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(255,105,180,0.3); border: 3px solid #ffb3d9; }
+        .spotify-title { text-align: center; font-size: 2em; color: #ff1493; margin-bottom: 20px; text-shadow: 1px 1px 2px rgba(255,182,193,0.3); }
+        .spotify-subtitle { text-align: center; font-size: 1.1em; color: #ff69b4; margin-bottom: 25px; font-style: italic; }
+        .spotify-embed-wrapper { max-width: 600px; margin: 0 auto; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 25px rgba(255,105,180,0.4); }
+        .photo-carousel-container { background: linear-gradient(135deg, #fff 0%, #ffe9f5 100%); border-radius: 25px; padding: 40px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(255,105,180,0.3); border: 3px solid #ffb3d9; }
+        .carousel-title { text-align: center; font-size: 2.5em; color: #ff1493; margin-bottom: 10px; text-shadow: 1px 1px 2px rgba(255,182,193,0.3); }
+        .carousel-subtitle { text-align: center; font-size: 1.2em; color: #ff69b4; margin-bottom: 30px; font-style: italic; }
+        .carousel-wrapper { position: relative; max-width: 900px; margin: 0 auto; }
+        .carousel-container { position: relative; width: 100%; overflow: hidden; border-radius: 20px; box-shadow: 0 10px 40px rgba(255,105,180,0.4); border: 4px solid #ffc1e0; }
+        .carousel-slides { display: flex; transition: transform 0.5s ease-in-out; }
+        .carousel-slide { min-width: 100%; position: relative; }
+        .carousel-slide img { width: 100%; height: 500px; object-fit: cover; display: block; }
+        .carousel-caption { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(255,20,147,0.95) 0%, rgba(255,20,147,0.8) 50%, transparent 100%); color: white; padding: 30px 20px 20px; text-align: center; }
+        .carousel-caption h3 { font-size: 1.8em; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        .carousel-caption p { font-size: 1em; line-height: 1.6; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
+        .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%); color: white; border: 3px solid white; width: 50px; height: 50px; border-radius: 50%; font-size: 1.5em; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(255,105,180,0.4); }
+        .carousel-btn:hover { transform: translateY(-50%) scale(1.1); box-shadow: 0 8px 25px rgba(255,105,180,0.6); }
+        .carousel-btn.prev { left: 15px; }
+        .carousel-btn.next { right: 15px; }
+        .carousel-dots { display: flex; justify-content: center; gap: 12px; margin-top: 25px; }
+        .carousel-dot { width: 14px; height: 14px; border-radius: 50%; background: #ffc1e0; cursor: pointer; transition: all 0.3s ease; border: 2px solid #ffb3d9; }
+        .carousel-dot.active { background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%); transform: scale(1.3); border-color: white; box-shadow: 0 0 10px rgba(255,105,180,0.6); }
+        .carousel-counter { text-align: center; margin-top: 15px; font-size: 1.1em; color: #ff69b4; font-weight: bold; }
+        @media (max-width: 768px) { .carousel-title { font-size: 2em; } .carousel-slide img { height: 350px; } .carousel-caption h3 { font-size: 1.3em; } .carousel-caption p { font-size: 0.9em; } .carousel-btn { width: 40px; height: 40px; font-size: 1.2em; } .carousel-btn.prev { left: 10px; } .carousel-btn.next { right: 10px; } }
 
-        /* Locked date card styles */
-        .date-card-container {
-            position: relative;
-            display: inline-block;
-            width: 100%;
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap');
+
+        #birthdayTriggerBtn {
+            position: fixed; bottom: 30px; right: 30px;
+            background: linear-gradient(135deg, #e8306a, #c0185a);
+            color: white; border: none; padding: 16px 26px;
+            border-radius: 50px; font-family: 'Georgia', serif;
+            font-size: 1.05em; cursor: pointer; z-index: 9998;
+            box-shadow: 0 6px 24px rgba(232,48,106,0.6);
+            animation: bdayBtnPulse 2.5s ease-in-out infinite;
+            transition: transform 0.2s ease;
         }
-
-        .locked-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10;
-            cursor: not-allowed;
+        #birthdayTriggerBtn:hover { transform: scale(1.06) translateY(-3px); }
+        @keyframes bdayBtnPulse {
+            0%,100% { box-shadow: 0 6px 24px rgba(232,48,106,0.6); }
+            50% { box-shadow: 0 10px 36px rgba(232,48,106,0.9); }
         }
-
-        .locked-overlay.hidden {
-            display: none;
+        #bdayOverlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(10,2,8,0.93); z-index: 9999;
+            align-items: center; justify-content: center;
+            padding: 16px; backdrop-filter: blur(8px);
         }
-
-        .lock-icon {
-            font-size: 4em;
-            color: #ff1493;
-            text-shadow: 0 0 20px rgba(255, 20, 147, 0.5);
-            animation: lock-pulse 2s ease-in-out infinite;
+        #bdayOverlay.show { display: flex; }
+        #bdayCloseBtn {
+            position: absolute; top: 14px; right: 14px;
+            background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25);
+            color: white; width: 34px; height: 34px; border-radius: 50%;
+            font-size: 1.1em; cursor: pointer; display: flex; align-items: center;
+            justify-content: center; z-index: 10002; transition: background 0.2s;
         }
-
-        @keyframes lock-pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        .locked-message {
-            background: linear-gradient(135deg, #fff 0%, #ffe9f5 100%);
-            border: 3px solid #ff69b4;
-            border-radius: 20px;
-            padding: 30px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(255,105,180,0.4);
-        }
-
-        .locked-message h3 {
-            color: #ff1493;
-            font-size: 1.8em;
-            margin-bottom: 15px;
-        }
-
-        .locked-message p {
-            color: #ff69b4;
-            font-size: 1.2em;
-            font-style: italic;
-        }
-
-        /* Spotify Player Styles */
-        .spotify-player-container {
-            background: linear-gradient(135deg, #fff 0%, #ffe9f5 100%);
-            border-radius: 25px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(255,105,180,0.3);
-            border: 3px solid #ffb3d9;
-        }
-
-        .spotify-title {
-            text-align: center;
-            font-size: 2em;
-            color: #ff1493;
-            margin-bottom: 20px;
-            text-shadow: 1px 1px 2px rgba(255,182,193,0.3);
-        }
-
-        .spotify-subtitle {
-            text-align: center;
-            font-size: 1.1em;
-            color: #ff69b4;
-            margin-bottom: 25px;
-            font-style: italic;
-        }
-
-        .spotify-embed-wrapper {
-            max-width: 600px;
-            margin: 0 auto;
-            border-radius: 12px;
+        #bdayCloseBtn:hover { background: rgba(255,255,255,0.22); }
+        #bdayCard {
+            position: relative; width: min(560px, 96vw);
+            background: white; border-radius: 26px;
+            padding: 46px 38px; text-align: center;
+            box-shadow: 0 40px 90px rgba(0,0,0,0.55);
+            border: 2px solid rgba(212,168,83,0.3);
+            min-height: 440px; display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
             overflow: hidden;
-            box-shadow: 0 8px 25px rgba(255,105,180,0.4);
         }
-
-        /* Photo Carousel Styles */
-        .photo-carousel-container {
-            background: linear-gradient(135deg, #fff 0%, #ffe9f5 100%);
-            border-radius: 25px;
-            padding: 40px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(255,105,180,0.3);
-            border: 3px solid #ffb3d9;
+        #bdayCard::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; height: 6px;
+            background: linear-gradient(90deg, #e8306a, #d4a853, #e8306a, #c0185a, #d4a853);
         }
-
-        .carousel-title {
-            text-align: center;
-            font-size: 2.5em;
-            color: #ff1493;
-            margin-bottom: 10px;
-            text-shadow: 1px 1px 2px rgba(255,182,193,0.3);
-        }
-
-        .carousel-subtitle {
-            text-align: center;
-            font-size: 1.2em;
-            color: #ff69b4;
-            margin-bottom: 30px;
-            font-style: italic;
-        }
-
-        .carousel-wrapper {
-            position: relative;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .carousel-container {
-            position: relative;
-            width: 100%;
-            overflow: hidden;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(255,105,180,0.4);
-            border: 4px solid #ffc1e0;
-        }
-
-        .carousel-slides {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-        }
-
-        .carousel-slide {
-            min-width: 100%;
-            position: relative;
-        }
-
-        .carousel-slide img {
-            width: 100%;
-            height: 500px;
-            object-fit: cover;
-            display: block;
-        }
-
-        .carousel-caption {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(to top, rgba(255,20,147,0.95) 0%, rgba(255,20,147,0.8) 50%, transparent 100%);
-            color: white;
-            padding: 30px 20px 20px;
-            text-align: center;
-        }
-
-        .carousel-caption h3 {
-            font-size: 1.8em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .carousel-caption p {
-            font-size: 1em;
-            line-height: 1.6;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-        }
-
-        .carousel-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
-            color: white;
-            border: 3px solid white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            font-size: 1.5em;
-            cursor: pointer;
-            z-index: 10;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(255,105,180,0.4);
-        }
-
-        .carousel-btn:hover {
-            transform: translateY(-50%) scale(1.1);
-            box-shadow: 0 8px 25px rgba(255,105,180,0.6);
-        }
-
-        .carousel-btn.prev {
-            left: 15px;
-        }
-
-        .carousel-btn.next {
-            right: 15px;
-        }
-
-        .carousel-dots {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-top: 25px;
-        }
-
-        .carousel-dot {
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: #ffc1e0;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid #ffb3d9;
-        }
-
-        .carousel-dot.active {
-            background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
-            transform: scale(1.3);
-            border-color: white;
-            box-shadow: 0 0 10px rgba(255,105,180,0.6);
-        }
-
-        .carousel-counter {
-            text-align: center;
-            margin-top: 15px;
-            font-size: 1.1em;
-            color: #ff69b4;
-            font-weight: bold;
-        }
-
-        @media (max-width: 768px) {
-            .carousel-title {
-                font-size: 2em;
-            }
-
-            .carousel-slide img {
-                height: 350px;
-            }
-
-            .carousel-caption h3 {
-                font-size: 1.3em;
-            }
-
-            .carousel-caption p {
-                font-size: 0.9em;
-            }
-
-            .carousel-btn {
-                width: 40px;
-                height: 40px;
-                font-size: 1.2em;
-            }
-
-            .carousel-btn.prev {
-                left: 10px;
-            }
-
-            .carousel-btn.next {
-                right: 10px;
-            }
-        }
-    
+        .bday-screen { display: none; width: 100%; animation: bdayFadeIn 0.45s ease; flex-direction: column; align-items: center; }
+        .bday-screen.active { display: flex; }
+        @keyframes bdayFadeIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+        .bday-progress { display: flex; gap: 10px; margin-bottom: 24px; align-items: center; }
+        .bday-step { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75em; font-weight: 700; font-family: 'Georgia', serif; border: 2px solid #ffc1e0; color: #ffb3d9; transition: all 0.4s ease; }
+        .bday-step.done { background: linear-gradient(135deg,#e8306a,#c0185a); border-color: #e8306a; color: white; box-shadow: 0 3px 10px rgba(232,48,106,0.4); }
+        .bday-step.current { border-color: #e8306a; color: #e8306a; }
+        .bday-step-line { width: 28px; height: 2px; background: #ffc1e0; border-radius: 2px; }
+        #bdayGift .gift-icon { font-size: 5em; animation: giftWiggle 1.8s ease-in-out infinite; margin-bottom: 18px; }
+        @keyframes giftWiggle { 0%,100%{transform:rotate(-6deg) translateY(0);} 50%{transform:rotate(6deg) translateY(-14px);} }
+        #bdayGift h2 { font-family: 'Playfair Display', Georgia, serif; font-size: 2em; color: #2a1520; margin-bottom: 8px; }
+        #bdayGift p { color: #a06070; font-size: 1em; margin-bottom: 28px; line-height: 1.6; }
+        .bday-primary-btn { background: linear-gradient(135deg, #e8306a, #c0185a); color: white; border: none; padding: 14px 38px; border-radius: 50px; font-family: 'Georgia', serif; font-size: 1.05em; cursor: pointer; box-shadow: 0 6px 20px rgba(232,48,106,0.4); transition: all 0.3s ease; margin-top: 8px; }
+        .bday-primary-btn:hover { transform: scale(1.05); box-shadow: 0 10px 28px rgba(232,48,106,0.6); }
+        .bday-secondary-btn { background: #fff8f2; color: #e8306a; border: 2px solid #e8306a; padding: 12px 32px; border-radius: 50px; font-family: 'Georgia', serif; font-size: 1em; cursor: pointer; transition: all 0.3s ease; margin-top: 8px; }
+        .bday-secondary-btn:hover { background: #ffe8f0; }
+        .game-badge { font-size: 0.7em; letter-spacing: 3px; color: #d4a853; text-transform: uppercase; margin-bottom: 10px; font-family: 'Georgia', serif; }
+        .game-title { font-family: 'Playfair Display', Georgia, serif; font-size: 1.6em; color: #2a1520; margin-bottom: 6px; }
+        .game-subtitle { font-size: 0.88em; color: #a06070; margin-bottom: 20px; font-style: italic; line-height: 1.5; }
+        #wordleGrid { display: flex; flex-direction: column; gap: 6px; margin: 16px 0 18px; }
+        .wordle-row { display: flex; gap: 6px; justify-content: center; }
+        .wordle-tile { width: 52px; height: 52px; border: 2px solid #ffc1e0; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.6em; font-weight: 700; font-family: 'Georgia', serif; color: #2a1520; transition: all 0.15s ease; text-transform: uppercase; }
+        .wordle-tile.filled { border-color: #e8306a; transform: scale(1.05); }
+        .wordle-tile.correct { background: linear-gradient(135deg,#e8306a,#c0185a); border-color: #e8306a; color: white; }
+        .wordle-tile.present { background: linear-gradient(135deg,#d4a853,#b8892a); border-color: #d4a853; color: white; }
+        .wordle-tile.absent { background: #e0c8d0; border-color: #e0c8d0; color: #8a5060; }
+        #wordleKeyboard { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; width: 100%; max-width: 340px; }
+        .wordle-key-row { display: flex; gap: 5px; justify-content: center; }
+        .wordle-key { height: 40px; min-width: 30px; padding: 0 8px; border-radius: 6px; border: none; background: #ffeef5; color: #2a1520; font-size: 0.85em; font-weight: 600; cursor: pointer; transition: all 0.15s ease; font-family: 'Georgia', serif; }
+        .wordle-key:hover { background: #ffd6e8; }
+        .wordle-key.wide { min-width: 52px; font-size: 0.75em; }
+        .wordle-key.correct { background: linear-gradient(135deg,#e8306a,#c0185a); color: white; }
+        .wordle-key.present { background: linear-gradient(135deg,#d4a853,#b8892a); color: white; }
+        .wordle-key.absent { background: #d8c0c8; color: #7a5060; }
+        #wordleMsg { min-height: 22px; font-size: 0.9em; color: #e8306a; margin: 8px 0; font-style: italic; animation: bdayFadeIn 0.3s ease; }
+        #pinpointArea { width: 100%; max-width: 440px; }
+        .pinpoint-clue-reveal { background: linear-gradient(135deg, #fff8f2, #ffe8f0); border: 2px solid #ffc1e0; border-radius: 14px; padding: 16px 20px; margin-bottom: 12px; text-align: left; position: relative; overflow: hidden; }
+        .pinpoint-clue-reveal.hidden-clue { filter: blur(6px); user-select: none; pointer-events: none; }
+        .pinpoint-clue-reveal.hidden-clue::after { content: ''; position: absolute; inset: 0; background: rgba(255,240,248,0.5); }
+        .clue-label { font-size: 0.7em; letter-spacing: 2px; color: #d4a853; text-transform: uppercase; margin-bottom: 4px; }
+        .clue-word { font-size: 1.3em; font-weight: 700; color: #2a1520; font-family: 'Playfair Display', Georgia, serif; }
+        .pinpoint-input-row { display: flex; gap: 8px; margin-top: 12px; }
+        .pinpoint-input { flex: 1; padding: 12px 16px; border: 2px solid #ffc1e0; border-radius: 50px; font-family: 'Georgia', serif; font-size: 1em; color: #2a1520; outline: none; transition: border-color 0.2s ease; }
+        .pinpoint-input:focus { border-color: #e8306a; }
+        .pinpoint-guess-btn { background: linear-gradient(135deg,#e8306a,#c0185a); color: white; border: none; border-radius: 50px; padding: 12px 22px; cursor: pointer; font-family: 'Georgia', serif; font-size: 0.95em; transition: all 0.2s ease; }
+        .pinpoint-guess-btn:hover { transform: scale(1.05); }
+        .pinpoint-attempts { display: flex; gap: 8px; justify-content: center; margin: 10px 0; flex-wrap: wrap; }
+        .attempt-bubble { padding: 5px 14px; border-radius: 20px; font-size: 0.8em; font-style: italic; background: #ffe8f0; color: #a06070; border: 1px solid #ffc1e0; }
+        .attempt-bubble.wrong { background: #ffd6d6; color: #c05050; border-color: #ffb3b3; text-decoration: line-through; }
+        #pinpointMsg { min-height: 22px; font-size: 0.9em; color: #e8306a; margin: 8px 0; font-style: italic; }
+        .reveal-clue-btn { background: white; border: 2px dashed #ffc1e0; color: #e8306a; border-radius: 10px; padding: 8px 16px; cursor: pointer; font-size: 0.85em; font-family: 'Georgia', serif; margin-top: 4px; transition: all 0.2s ease; }
+        .reveal-clue-btn:hover { background: #fff0f5; border-color: #e8306a; }
+        .reveal-clue-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        #zipArea { width: 100%; max-width: 420px; }
+        #zipGrid { display: grid; gap: 4px; margin: 0 auto 14px; width: fit-content; touch-action: none; }
+        .zip-cell { width: 48px; height: 48px; border-radius: 10px; border: 2px solid #ffc1e0; background: white; display: flex; align-items: center; justify-content: center; font-size: 1em; font-weight: 700; cursor: pointer; transition: all 0.15s ease; user-select: none; position: relative; font-family: 'Georgia', serif; }
+        .zip-cell:hover { border-color: #e8306a; background: #fff0f5; }
+        .zip-cell.numbered { font-size: 1.1em; color: #e8306a; font-weight: 700; }
+        .zip-cell.path { background: linear-gradient(135deg,#e8306a,#c0185a); border-color: #c0185a; color: white; }
+        .zip-cell.path.start { background: linear-gradient(135deg,#d4a853,#b8892a); border-color: #b8892a; }
+        .zip-cell.path.end { background: linear-gradient(135deg,#9b59b6,#7d3c98); border-color: #7d3c98; }
+        .zip-cell.correct-path { background: linear-gradient(135deg,#27ae60,#1e8449) !important; border-color: #1e8449 !important; }
+        #zipMsg { min-height: 22px; font-size: 0.9em; color: #e8306a; margin: 6px 0; font-style: italic; }
+        #bdayFinal { gap: 0; }
+        .final-sparkles { font-size: 1.8em; letter-spacing: 4px; margin-bottom: 14px; animation: sparkleAnim 2s ease-in-out infinite; }
+        @keyframes sparkleAnim { 0%,100%{opacity:1;} 50%{opacity:0.5; transform:scale(1.06);} }
+        .final-letter-card { background: linear-gradient(160deg, #fff8f2, #ffeef5); border: 2px solid rgba(212,168,83,0.4); border-radius: 20px; padding: 32px 28px; text-align: left; position: relative; overflow: hidden; max-height: 55vh; overflow-y: auto; }
+        .final-letter-card::before { content: '❤'; position: absolute; font-size: 9em; color: rgba(232,48,106,0.04); right: -20px; bottom: -20px; line-height: 1; }
+        .final-date-label { font-size: 0.72em; letter-spacing: 3px; color: #d4a853; text-transform: uppercase; margin-bottom: 12px; }
+        .final-letter-card h2 { font-family: 'Playfair Display', Georgia, serif; font-size: 1.8em; color: #e8306a; margin-bottom: 16px; }
+        .final-letter-card p { font-size: 0.94em; line-height: 1.9; color: #3a1520; margin-bottom: 12px; }
+        .final-letter-card p strong { color: #e8306a; }
+        .final-signature { font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-size: 1.15em; color: #e8306a; text-align: right; margin-top: 20px; }
+        .float-heart-anim { position: fixed; font-size: 1.4em; pointer-events: none; z-index: 10002; animation: floatUp 2.4s ease forwards; }
+        @keyframes floatUp { 0%{transform:translateY(0) scale(0.5);opacity:0.9;} 100%{transform:translateY(-80vh) scale(1.3);opacity:0;} }
+        @media (max-width: 520px) { #bdayCard { padding: 34px 16px; } .wordle-tile { width: 44px; height: 44px; font-size: 1.3em; } .zip-cell { width: 40px; height: 40px; font-size: 0.85em; } }
     </style>
 </head>
 <body>
     <div class="floating-hearts">
-        <div class="heart">💕</div>
-        <div class="heart">💖</div>
-        <div class="heart">💗</div>
-        <div class="heart">💓</div>
-        <div class="heart">💝</div>
-        <div class="heart">💞</div>
+        <div class="heart">💕</div><div class="heart">💖</div><div class="heart">💗</div>
+        <div class="heart">💓</div><div class="heart">💝</div><div class="heart">💞</div>
     </div>
-    
+
     <div class="container">
         <header>
             <h1>✨ Open When... ❤️ ✨</h1>
@@ -634,19 +238,16 @@
                 <div class="letter-title">Open When You're Tired</div>
                 <div class="letter-subtitle">For those exhausting days</div>
             </div>
-
             <div class="letter-card" onclick="openLetter('upset')">
                 <span class="letter-icon">😤</span>
                 <div class="letter-title">Open When You're Upset</div>
                 <div class="letter-subtitle">When things aren't going right</div>
             </div>
-
             <div class="letter-card" onclick="openLetter('miss')">
                 <span class="letter-icon">💕</span>
                 <div class="letter-title">Open When You Miss Me</div>
                 <div class="letter-subtitle">I'm always thinking of you</div>
             </div>
-
             <div class="letter-card" onclick="openLetter('french')">
                 <span class="letter-icon">🥐</span>
                 <div class="letter-title">Open When You Feel A Bit French</div>
@@ -654,35 +255,24 @@
             </div>
         </div>
 
-        <!-- Spotify Player Section -->
         <div class="spotify-player-container">
             <h2 class="spotify-title">🎵 Our Special Playlist 🎵</h2>
             <p class="spotify-subtitle">Songs that remind me of you 💕</p>
-            
             <div class="spotify-embed-wrapper">
-                <iframe data-testid="embed-iframe" 
-                        style="border-radius:12px" 
-                        src="https://open.spotify.com/embed/playlist/7eQrZWi6JfNBZcfVJP2HJI?utm_source=generator&theme=0" 
-                        width="100%" 
-                        height="352" 
-                        frameBorder="0" 
-                        allowfullscreen="" 
-                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                        loading="lazy">
+                <iframe data-testid="embed-iframe" style="border-radius:12px"
+                    src="https://open.spotify.com/embed/playlist/7eQrZWi6JfNBZcfVJP2HJI?utm_source=generator&theme=0"
+                    width="100%" height="352" frameBorder="0" allowfullscreen=""
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
                 </iframe>
             </div>
         </div>
 
-        <!-- Photo Carousel Section -->
         <div class="photo-carousel-container">
             <h2 class="carousel-title">Our Memories Together 📸</h2>
             <p class="carousel-subtitle">Every moment with you is a treasure 💕</p>
-            
             <div class="carousel-wrapper">
                 <div class="carousel-container">
-                    <div class="carousel-slides" id="carouselSlides">
-                        <!-- Slides will be loaded dynamically -->
-                    </div>
+                    <div class="carousel-slides" id="carouselSlides"></div>
                     <button class="carousel-btn prev" onclick="changeSlide(-1)">‹</button>
                     <button class="carousel-btn next" onclick="changeSlide(1)">›</button>
                 </div>
@@ -691,31 +281,18 @@
             </div>
         </div>
 
-        <!-- Date Letter Section with Countdown -->
         <div class="countdown-container">
             <div class="countdown-title">🌹 Our Special Date 🌹</div>
             <div class="countdown-timer" id="countdown">
-                <div class="time-unit">
-                    <span class="time-value" id="days">0</span>
-                    <span class="time-label">Days</span>
-                </div>
-                <div class="time-unit">
-                    <span class="time-value" id="hours">0</span>
-                    <span class="time-label">Hours</span>
-                </div>
-                <div class="time-unit">
-                    <span class="time-value" id="minutes">0</span>
-                    <span class="time-label">Minutes</span>
-                </div>
-                <div class="time-unit">
-                    <span class="time-value" id="seconds">0</span>
-                    <span class="time-label">Seconds</span>
-                </div>
+                <div class="time-unit"><span class="time-value" id="days">0</span><span class="time-label">Days</span></div>
+                <div class="time-unit"><span class="time-value" id="hours">0</span><span class="time-label">Hours</span></div>
+                <div class="time-unit"><span class="time-value" id="minutes">0</span><span class="time-label">Minutes</span></div>
+                <div class="time-unit"><span class="time-value" id="seconds">0</span><span class="time-label">Seconds</span></div>
             </div>
             <div class="date-arrived" id="dateArrived">
                 <h3>🎉 It's Date Time! 🎉</h3>
                 <div class="date-card-container">
-                    <div class="letter-card" onclick="openDateLetter()" style="display: inline-block; cursor: pointer;">
+                    <div class="letter-card" onclick="openDateLetter()" style="display:inline-block;cursor:pointer;">
                         <span class="letter-icon">💑</span>
                         <div class="letter-title">Open Your Date Letter</div>
                         <div class="letter-subtitle">Click to read your special message</div>
@@ -728,594 +305,405 @@
         </div>
     </div>
 
-    <!-- Modal -->
     <div class="modal" id="modal">
         <div class="modal-content">
             <button class="close-btn" onclick="closeModal()">&times;</button>
-            <div class="modal-header">
-                <h2 id="modalTitle"></h2>
-            </div>
+            <div class="modal-header"><h2 id="modalTitle"></h2></div>
             <div class="modal-body" id="modalBody"></div>
         </div>
     </div>
-
-    <!-- Locked Message Modal -->
     <div class="modal" id="lockedModal">
-        <div class="modal-content" style="max-width: 500px;">
+        <div class="modal-content" style="max-width:500px;">
             <button class="close-btn" onclick="closeLockedModal()">&times;</button>
             <div class="locked-message">
                 <h3>🔒 Not So Fast! 🔒</h3>
                 <p>We're not on a date now, are we? 😏</p>
-                <p style="margin-top: 20px; font-size: 0.9em;">This letter will unlock when we're together on our special date! 💕</p>
+                <p style="margin-top:20px;font-size:0.9em;">This letter will unlock when we're together on our special date! 💕</p>
             </div>
         </div>
     </div>
 
+    <button id="birthdayTriggerBtn" onclick="openBdayCard()">🎂 Open Birthday Surprise!</button>
+
+    <div id="bdayOverlay">
+        <button id="bdayCloseBtn" onclick="closeBdayCard()">✕</button>
+        <div id="bdayCard">
+
+            <div class="bday-screen active" id="bdayGift">
+                <div class="gift-icon">🎁</div>
+                <h2>Happy Birthday, Karina! 🌹</h2>
+                <p>There's a very special message waiting for you<br>but you have to unwrap it first…<br>three layers of games stand between you and it! 😏</p>
+                <button class="bday-primary-btn" onclick="startBday()">Tear it open! 🎀</button>
+            </div>
+
+            <div class="bday-screen" id="bdayWordle">
+                <div class="bday-progress">
+                    <div class="bday-step current" id="step1">1</div>
+                    <div class="bday-step-line"></div>
+                    <div class="bday-step" id="step2">2</div>
+                    <div class="bday-step-line"></div>
+                    <div class="bday-step" id="step3">3</div>
+                </div>
+                <div class="game-badge">Game 1 of 3 · Wordle</div>
+                <div class="game-title">Can you guess the word? 💌</div>
+                <div class="game-subtitle">4-letter word · 6 tries · It's everything we have ❤️</div>
+                <div id="wordleGrid"></div>
+                <div id="wordleMsg"></div>
+                <div id="wordleKeyboard"></div>
+            </div>
+
+            <div class="bday-screen" id="bdayPinpoint">
+                <div class="bday-progress">
+                    <div class="bday-step done" id="step1b">✓</div>
+                    <div class="bday-step-line" style="background:#e8306a"></div>
+                    <div class="bday-step current" id="step2b">2</div>
+                    <div class="bday-step-line"></div>
+                    <div class="bday-step" id="step3b">3</div>
+                </div>
+                <div class="game-badge">Game 2 of 3 · Pinpoint</div>
+                <div class="game-title">What do these words have in common? 🔎</div>
+                <div class="game-subtitle">Clues reveal one by one — guess with fewer clues for more stars ✨<br>Answer: two words</div>
+                <div id="pinpointArea">
+                    <div id="pinpointClues"></div>
+                    <div class="pinpoint-attempts" id="pinpointAttempts"></div>
+                    <div id="pinpointMsg"></div>
+                    <div class="pinpoint-input-row">
+                        <input type="text" class="pinpoint-input" id="pinpointInput" placeholder="Type your answer…" onkeydown="if(event.key==='Enter')submitPinpoint()">
+                        <button class="pinpoint-guess-btn" onclick="submitPinpoint()">Guess →</button>
+                    </div>
+                    <button class="reveal-clue-btn" id="revealClueBtn" onclick="revealNextClue()" style="margin-top:10px;">Reveal next clue 👁</button>
+                </div>
+            </div>
+
+            <div class="bday-screen" id="bdayZip">
+                <div class="bday-progress">
+                    <div class="bday-step done">✓</div>
+                    <div class="bday-step-line" style="background:#e8306a"></div>
+                    <div class="bday-step done">✓</div>
+                    <div class="bday-step-line" style="background:#e8306a"></div>
+                    <div class="bday-step current" id="step3c">3</div>
+                </div>
+                <div class="game-badge">Game 3 of 3 · Zip</div>
+                <div class="game-title">Connect 1 → 20 in a special shape 💕</div>
+                <div class="game-subtitle">Tap the numbers in order from 1 to 20.<br>The path will reveal a hidden shape…</div>
+                <div id="zipArea">
+                    <div id="zipGrid"></div>
+                    <div id="zipMsg"></div>
+                    <button class="bday-secondary-btn" id="zipResetBtn" onclick="resetZip()">↺ Reset path</button>
+                </div>
+            </div>
+
+            <!-- UPDATED BIRTHDAY LETTER -->
+            <div class="bday-screen" id="bdayFinal">
+                <div class="final-sparkles">🌹✨💕✨🌹</div>
+                <div class="final-letter-card">
+                    <div class="final-date-label">February 24, 2026 · Feliz Cumpleaños 🎂</div>
+                    <h2>To My Karina 💕</h2>
+                    <p>I'm writing this while you're not here, you're in Barcelona right now, enjoying yourself, and I hope you are having a good time. But I haven't spent a single hour without thinking about you. I miss you so much.</p>
+                    <p>And yet, today is also about something bigger. Today is the day you came into this world and made everything around you brighter. Kari, I am so grateful that I got to meet you in this life, and if I didn't I would have looked for you everywhere in all my lives, because every moment I've spent talking to you, being with you, has been the best time of my life.</p>
+                    <p>I really love you a lot. I appreciate everything you do. And I promise that I will always be here with you. I love just watching you study because you are the smartest person ever. I love hearing about your day. I love being with you at all times, just feeling your heart, listening to how it goes.</p>
+                    <p>You are the best person I ever got to meet, and I am so grateful for that. <em>Te amo, Kari.</em> I can't even find the words to express it fully.</p>
+                    <p>I want to see you become the person you dream of being, because that's the person I dream of standing next to, every single day of my life.</p>
+                    <p><strong>Happiest of birthdays. Feliz cumpleaños.</strong> I will always be next to you and I will always be richer in life, as long as you stay close to me.</p>
+                    <p>Loving you is the best thing I have ever done in my life.</p>
+                    <p><strong>Thank you for existing.</strong> I am here for you, always and forever.</p>
+                    <div class="final-signature">Forever yours,<br>Seif ❤️</div>
+                </div>
+                <button class="bday-primary-btn" style="margin-top:20px;" onclick="closeBdayCard()">Close with love 💕</button>
+            </div>
+
+        </div>
+    </div>
+
     <script>
-        // ========================================
-        // 🎨 PERSONALIZATION SECTION - EDIT HERE!
-        // ========================================
-        
-        // 1. YOUR NAMES
-        const YOUR_NAME = "Seif";
-        const HER_NAME = "Karina";
-        
-        // 2. SPOTIFY PLAYLIST
-        const SPOTIFY_PLAYLIST_ID = "7eQrZWi6JfNBZcfVJP2HJI";
-        
-        // 3. DATE DETAILS
-        const DATE_TIME = "February 15, 2026 22:00:00";
-        const DATE_LOCATION = "our favorite restaurant";
-        
-        // 4. PHOTO FOLDER PATH
-        // IMPORTANT: Make sure the Pictures folder is in the SAME folder as this HTML file
-        // If your HTML is at: C:/Users/You/parati/open-when.html
-        // Then Pictures should be at: C:/Users/You/parati/Pictures/
-        const PHOTO_FOLDER = "./Pictures"; // ./ means "same folder as this HTML file"
-        
-        // 5. PHOTO CAPTIONS (Optional)
-        // You can add custom captions for specific photos by filename
-        // If a photo doesn't have a caption here, it will use a generic one
-        const PHOTO_CAPTIONS = {
-            // Example: "Picture (1).jpeg": { caption: "Our First Date", description: "This was amazing..." }
-            // Add your own captions below:
-        };
-        
-        // 6. HOW MANY PHOTOS DO YOU HAVE?
-        // Set this to the number of photos in your Pictures folder
-        // Your photos should be named: Picture (1).jpeg, Picture (2).jpeg, Picture (3).jpeg, etc.
-        const NUMBER_OF_PHOTOS = 20; // Change this to your number of photos
-        const PHOTO_EXTENSION = "jpeg"; // Change to "jpeg", "png", "JPEG", etc. if needed
-        
-        // ========================================
-        // END PERSONALIZATION SECTION
-        // ========================================
-        
-        // Letter content
-        const letters = {
-            tired: {
-                title: "When You're Tired 😴",
-                content: `
-                    <p>Kari, My love,</p>
-                    
-                    <p>I know you're going through a lot, you're exhausted right now and I wish I could make you feel better and make everything easier for you.</p>
-                    
-                    <p>You're hardworking and you're doing your best but remember that you can take time for yourself, you're taking everything on your shoulder and it's okay to rest.</p>
-                    
-                    <p>Please close your eyes, take a deep breath and I will be two kisses away from you.</p>
-                    
-                    <p>Tomorrow will be here soon and you're gonna face it beautifully as you always do.</p>
-                    
-                    <p>Rest well, vida mía, and I love you (You know the distance between ...)</p>
-                    
-                    <p style="text-align: right; font-style: italic; margin-top: 30px;">Forever yours,<br>Seif ❤️</p>
-                `
-            },
-            upset: {
-                title: "When You're Upset 😤",
-                content: `
-                    <p>Hola,</p>
-                    
-                    <p>I mean I understand you're mad and you're so right.</p>
-                    
-                    <p>Just remember you can call me for any of your battles and I will make sure to fight with you.</p>
-                    
-                    <p>You're not alone, and if you're annoyed by me, just let me know and I will castigado myself.</p>
-                    
-                    <p>Please take a moment for yourself amor and remember this will pass soon.</p>
-                    
-                    <p>I Love you and I know you will handle this well, you always do.</p>
-                    
-                    <p style="text-align: right; font-style: italic; margin-top: 30px;">Love always ❤️</p>
-                `
-            },
-            miss: {
-                title: "When You Miss Me 💕",
-                content: `
-                    <p>Darling,</p>
-                    
-                    <p>I miss you so much it hurts.</p>
-                    
-                    <p>Even when we're far I am never far from you, you're always in my head, every little thing reminds me of you, the songs I hear, the smells I notice and random moments we spent together.</p>
-                    
-                    <p>I miss you, I miss being in the same room as you but know that I will be here soon.</p>
-                    
-                    <p>Until we're together again, hold onto this: you are loved, you are cherished, and you are always, always in my heart.</p>
-                    
-                    <p>I can't wait to see you again and hold you close.</p>
-                    
-                    <p style="text-align: right; font-style: italic; margin-top: 30px;">Missing you endlessly ❤️</p>
-                `
-            },
-            french: {
-                title: "When You Feel A Bit French 🇫🇷",
-                content: `
-                    <div style="text-align: center;">
-                        <p style="font-size: 2em; color: #ff1493; margin-bottom: 10px;">
-                            <strong>🇫🇷 Petite Leçon de Français 🇫🇷</strong>
-                        </p>
-                        <p style="font-size: 1.3em; color: #ff69b4; font-style: italic; margin-bottom: 40px;">
-                            Pour Mon Amour Karina 💙✨
-                        </p>
-                    </div>
-                    
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-bottom: 40px;">
-                        <div style="background: linear-gradient(135deg, #fff5f8 0%, #ffe9f5 100%); padding: 25px; border-radius: 15px; border-left: 5px solid #ff69b4;">
-                            <h3 style="color: #ff1493; margin-bottom: 15px; text-align: center;">💕 Les Mots Doux</h3>
-                            <p style="margin: 8px 0;"><strong>Mon amour</strong> - My love</p>
-                            <p style="margin: 8px 0;"><strong>Ma chérie</strong> - My darling</p>
-                            <p style="margin: 8px 0;"><strong>Mon cœur</strong> - My heart</p>
-                            <p style="margin: 8px 0;"><strong>Ma belle</strong> - My beautiful</p>
-                            <p style="margin: 8px 0;"><strong>Mon trésor</strong> - My treasure</p>
-                            <p style="margin: 8px 0;"><strong>Ma vie</strong> - My life</p>
-                            <p style="margin: 8px 0;"><strong>Mon ange</strong> - My angel</p>
-                        </div>
+    const YOUR_NAME = "Seif";
+    const HER_NAME = "Karina";
+    const DATE_TIME = "February 15, 2026 22:00:00";
+    const NUMBER_OF_PHOTOS = 20;
+    const PHOTO_EXTENSION = "jpeg";
 
-                        <div style="background: linear-gradient(135deg, #fff5f8 0%, #ffe9f5 100%); padding: 25px; border-radius: 15px; border-left: 5px solid #ff1493;">
-                            <h3 style="color: #ff1493; margin-bottom: 15px; text-align: center;">💖 Les Phrases</h3>
-                            <p style="margin: 8px 0;"><strong>Je t'aime</strong> - I love you</p>
-                            <p style="margin: 8px 0;"><strong>Tu me manques</strong> - I miss you</p>
-                            <p style="margin: 8px 0;"><strong>Tu es belle</strong> - You are beautiful</p>
-                            <p style="margin: 8px 0;"><strong>Je pense à toi</strong> - I'm thinking of you</p>
-                            <p style="margin: 8px 0;"><strong>Tu es tout pour moi</strong> - You are everything</p>
-                            <p style="margin: 8px 0;"><strong>Je suis fou de toi</strong> - I'm crazy about you</p>
-                            <p style="margin: 8px 0;"><strong>Mon cœur bat pour toi</strong> - My heart beats for you</p>
-                        </div>
-                    </div>
-
-                    <div style="background: linear-gradient(135deg, #fff 0%, #fff5f8 100%); padding: 30px; border-radius: 20px; border: 3px solid #ff69b4; box-shadow: 0 10px 30px rgba(255,105,180,0.3); margin: 30px auto; max-width: 600px;">
-                        <h3 style="color: #ff1493; text-align: center; margin-bottom: 20px; font-size: 1.5em;">
-                            ✨ Pour Pratiquer ✨
-                        </h3>
-                        <p style="font-size: 1.15em; line-height: 2; color: #5a3a4a; text-align: center;">
-                            <strong style="color: #ff1493;">Ma chérie Karina,</strong><br><br>
-                            Je t'aime plus que tout au monde. Tu es la plus belle femme que j'ai jamais vue. 
-                            Chaque jour avec toi est un cadeau. Tu illumines ma vie et mon cœur bat seulement pour toi. 
-                            Je pense à toi chaque seconde. Tu me manques tellement quand tu n'es pas là.
-                        </p>
-                        <div style="margin-top: 25px; padding-top: 25px; border-top: 2px dashed #ffc1e0;">
-                            <p style="font-size: 0.95em; line-height: 1.8; color: #ff69b4; text-align: center; font-style: italic;">
-                                <strong>Translation:</strong><br>
-                                My darling Karina, I love you more than anything in the world. You are the most beautiful woman I have ever seen. 
-                                Every day with you is a gift. You light up my life and my heart beats only for you. 
-                                I think of you every second. I miss you so much when you're not here.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div style="background: linear-gradient(135deg, #fff5f8 0%, #ffe9f5 100%); padding: 20px; border-radius: 15px; margin-top: 30px; text-align: center;">
-                        <h3 style="color: #ff1493; margin-bottom: 15px;">✨ Compliments & More ✨</h3>
-                        <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-top: 20px;">
-                            <span style="background: white; padding: 10px 20px; border-radius: 25px; border: 2px solid #ffb3d9; color: #ff1493; font-weight: bold;">Tu as de beaux yeux</span>
-                            <span style="background: white; padding: 10px 20px; border-radius: 25px; border: 2px solid #ffb3d9; color: #ff1493; font-weight: bold;">Ton sourire est magnifique</span>
-                            <span style="background: white; padding: 10px 20px; border-radius: 25px; border: 2px solid #ffb3d9; color: #ff1493; font-weight: bold;">Tu es extraordinaire</span>
-                            <span style="background: white; padding: 10px 20px; border-radius: 25px; border: 2px solid #ffb3d9; color: #ff1493; font-weight: bold;">Tu es parfaite</span>
-                            <span style="background: white; padding: 10px 20px; border-radius: 25px; border: 2px solid #ffb3d9; color: #ff1493; font-weight: bold;">Tu es ma raison de vivre</span>
-                        </div>
-                    </div>
-
-                    <p style="text-align: center; font-style: italic; margin-top: 40px; font-size: 1.4em; color: #ff1493;">
-                        Continue d'apprendre, mon amour! 💕<br>
-                        <small style="color: #ff69b4;">(Keep learning, my love!)</small>
-                    </p>
-                `
-            },
-            date: {
-                title: "Our Special Date 💑",
-                content: `
-                    <p>My love,</p>
-                    
-                    <p>I have been counting for weeks for this moment to arrive, every second, every hour I was thinking of this exact thing happening again and again in my mind.</p>
-                    
-                    <p>Every moment with you is a gift from the universe, but tonight is extra special. I've been thinking about this evening for so long, planning and dreaming about seeing your smile.</p>
-                    
-                    <p>Thank you for being you. Thank you for choosing to spend your time with me. Thank you for making my life infinitely more beautiful.</p>
-                    
-                    <p><strong>You are the reason I am keeping up in life and feel better like no other time.</strong> <em>Tu es ma lumière dans l'obscurité. Eres mi razón de ser.</em> You've given me hope and happiness I never knew existed.</p>
-                    
-                    <p>Sometimes, when you're not there, I look at your desk and I imagine myself next to you, just holding your hands. It means everything to me. <em>Je rêve de ces moments simples avec toi.</em></p>
-                    
-                    <p>I dream of your laugh and I hear you always in my mind, even when we're far. <em>Tu risa es mi canción favorita.</em></p>
-                    
-                    <p>I love teaching you French because that means more time together, and I absolutely love hearing you speak. Every word you try, every phrase you practice is wonderful.</p>
-                    
-                    <p>I love playing LinkedIn with the smartest woman ever. Watching you think and be the smartest is one of my favorite things.</p>
-                    
-                    <p>I love talking about you with everyone because they should know about the best person ever. <em>Tu es la plus belle personne que je connaisse</em> and I want the whole world to know how amazing you are.</p>
-                    
-                    <p><strong>I will follow you everywhere, even to the horrible Germany if I need to.</strong></p>
-                    
-                    <p><strong>And I will support you in everything.</strong> Your dreams are my dreams. Your goals are my goals.</p>
-                    
-                    <p><strong>This date made me understand that I want you and love you like never before.</strong></p>
-                    
-                    <p><strong>I want this to be as concrete as we can.</strong></p>
-                    
-                    <p>I am maybe not what you imagined your prince to be but maybe a beast can be the best thing for this beauty (You that's why I wanted us to watch the movie I hope we did).</p>
-                    
-                    <p>I offer you this ring as a promise that one day you will get a bigger better one and we will see each other as my bride in 3 weddings all around the world.</p>
-                    
-                    <p>I love you more than words could ever express. <em>Je t'aime plus que tout au monde. Te amo más de lo que las palabras pueden expresar.</em></p>
-                    
-                    <div id="proposalSection" style="margin-top: 50px; text-align: center;">
-                        <h2 style="font-size: 2.5em; color: #ff1493; margin-bottom: 30px; text-shadow: 2px 2px 4px rgba(255,182,193,0.5);">
-                            ¿Quieres ser mi novia? 💕
-                        </h2>
-                        <div style="display: flex; gap: 20px; justify-content: center; align-items: center; flex-wrap: wrap;">
-                            <button id="yesBtn" onclick="handleYes()" style="
-                                background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
-                                color: white;
-                                border: 3px solid white;
-                                padding: 20px 40px;
-                                font-size: 1.5em;
-                                border-radius: 50px;
-                                cursor: pointer;
-                                box-shadow: 0 10px 30px rgba(255,105,180,0.5);
-                                transition: all 0.3s ease;
-                                font-weight: bold;
-                            ">
-                                Sí ❤️
-                            </button>
-                            <button id="noBtn" onclick="handleNo()" style="
-                                background: linear-gradient(135deg, #ffc1e0 0%, #ffb3d9 100%);
-                                color: #ff1493;
-                                border: 3px solid #ff69b4;
-                                padding: 20px 40px;
-                                font-size: 1.5em;
-                                border-radius: 50px;
-                                cursor: pointer;
-                                box-shadow: 0 5px 15px rgba(255,182,193,0.4);
-                                transition: all 0.3s ease;
-                                font-weight: bold;
-                            ">
-                                No
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div id="celebrationSection" style="display: none; margin-top: 50px; text-align: center;">
-                        <h2 style="font-size: 3em; color: #ff1493; margin-bottom: 20px; animation: pulse 1s ease-in-out infinite;">
-                            🎉 ¡SÍ DIJO QUE SÍ! 🎉
-                        </h2>
-                        <p style="font-size: 1.5em; color: #ff69b4; margin-bottom: 30px;">
-                            ¡Ahora somos novios oficialmente! 💑
-                        </p>
-                        <div style="font-size: 4em; animation: float 2s ease-in-out infinite;">
-                            💕💖💗💓💝💞
-                        </div>
-                    </div>
-                    
-                    <p style="text-align: right; font-style: italic; margin-top: 30px; display: none;" id="signatureDate">Yours forever and always,<br>Seif ❤️</p>
-                `
-            }
-        };
-
-        // Carousel functionality
-        let currentSlide = 0;
-        // Hardcoded photo array with all 20 images
-        const PHOTOS = [
-            { src: "Pictures/Picture (1).jpeg", caption: "Memory 1", description: "" },
-            { src: "Pictures/Picture (2).jpeg", caption: "Memory 2", description: "" },
-            { src: "Pictures/Picture (3).jpeg", caption: "Memory 3", description: "" },
-            { src: "Pictures/Picture (4).jpeg", caption: "Memory 4", description: "" },
-            { src: "Pictures/Picture (5).jpeg", caption: "Memory 5", description: "" },
-            { src: "Pictures/Picture (6).jpeg", caption: "Memory 6", description: "" },
-            { src: "Pictures/Picture (7).jpeg", caption: "Memory 7", description: "" },
-            { src: "Pictures/Picture (8).jpeg", caption: "Memory 8", description: "" },
-            { src: "Pictures/Picture (9).jpeg", caption: "Memory 9", description: "" },
-            { src: "Pictures/Picture (10).jpeg", caption: "Memory 10", description: "" },
-            { src: "Pictures/Picture (11).jpeg", caption: "Memory 11", description: "" },
-            { src: "Pictures/Picture (12).jpeg", caption: "Memory 12", description: "" },
-            { src: "Pictures/Picture (13).jpeg", caption: "Memory 13", description: "" },
-            { src: "Pictures/Picture (14).jpeg", caption: "Memory 14", description: "" },
-            { src: "Pictures/Picture (15).jpeg", caption: "Memory 15", description: "" },
-            { src: "Pictures/Picture (16).jpeg", caption: "Memory 16", description: "" },
-            { src: "Pictures/Picture (17).jpeg", caption: "Memory 17", description: "" },
-            { src: "Pictures/Picture (18).jpeg", caption: "Memory 18", description: "" },
-            { src: "Pictures/Picture (19).jpeg", caption: "Memory 19", description: "" },
-            { src: "Pictures/Picture (20).jpeg", caption: "Memory 20", description: "" }
-        ];
-
-        function loadCarousel() {
-            const slidesContainer = document.getElementById('carouselSlides');
-            const dotsContainer = document.getElementById('carouselDots');
-            
-            if (PHOTOS.length === 0) {
-                slidesContainer.innerHTML = `
-                    <div class="carousel-slide">
-                        <div style="padding: 100px 20px; text-align: center; color: #ff69b4;">
-                            <h3 style="margin-bottom: 20px;">📸 No Photos Configured</h3>
-                            <p style="margin-bottom: 15px;">Please set <strong>NUMBER_OF_PHOTOS</strong> in the script section.</p>
-                            <p style="margin-bottom: 15px;">Your photos should be named: 1.${PHOTO_EXTENSION}, 2.${PHOTO_EXTENSION}, 3.${PHOTO_EXTENSION}, etc.</p>
-                            <p style="margin-bottom: 15px;">And placed in the "<strong>${PHOTO_FOLDER}</strong>" folder.</p>
-                            <p style="font-size: 0.9em; color: #ff1493; margin-top: 20px;">Open the HTML file in a text editor and find NUMBER_OF_PHOTOS near the top of the script section!</p>
-                        </div>
-                    </div>
-                `;
-                return;
-            }
-            
-            // Create slides for photos
-            PHOTOS.forEach((photo, index) => {
-                const slide = document.createElement('div');
-                slide.className = 'carousel-slide';
-                slide.innerHTML = `
-                    <img src="${photo.src}" alt="${photo.caption}" onerror="this.onerror=null; this.src='https://via.placeholder.com/900x500/ff69b4/ffffff?text=Photo+${index + 1}+not+found';">
-                    <div class="carousel-caption">
-                        <h3>${photo.caption}</h3>
-                        ${photo.description ? `<p>${photo.description}</p>` : ''}
-                    </div>
-                `;
-                slidesContainer.appendChild(slide);
-                
-                // Create dot
-                const dot = document.createElement('div');
-                dot.className = 'carousel-dot' + (index === 0 ? ' active' : '');
-                dot.onclick = () => goToSlide(index);
-                dotsContainer.appendChild(dot);
-            });
-            
-            updateCounter();
+    const letters = {
+        tired: {
+            title: "When You're Tired 😴",
+            content: `<p>Kari, My love,</p><p>I know you're going through a lot, you're exhausted right now and I wish I could make you feel better and make everything easier for you.</p><p>You're hardworking and you're doing your best but remember that you can take time for yourself, you're taking everything on your shoulder and it's okay to rest.</p><p>Please close your eyes, take a deep breath and I will be two kisses away from you.</p><p>Tomorrow will be here soon and you're gonna face it beautifully as you always do.</p><p>Rest well, vida mía, and I love you (You know the distance between ...)</p><p style="text-align:right;font-style:italic;margin-top:30px;">Forever yours,<br>Seif ❤️</p>`
+        },
+        upset: {
+            title: "When You're Upset 😤",
+            content: `<p>Hola,</p><p>I mean I understand you're mad and you're so right.</p><p>Just remember you can call me for any of your battles and I will make sure to fight with you.</p><p>You're not alone, and if you're annoyed by me, just let me know and I will castigado myself.</p><p>Please take a moment for yourself amor and remember this will pass soon.</p><p>I Love you and I know you will handle this well, you always do.</p><p style="text-align:right;font-style:italic;margin-top:30px;">Love always ❤️</p>`
+        },
+        miss: {
+            title: "When You Miss Me 💕",
+            content: `<p>Darling,</p><p>I miss you so much it hurts.</p><p>Even when we're far I am never far from you, you're always in my head, every little thing reminds me of you, the songs I hear, the smells I notice and random moments we spent together.</p><p>I miss you, I miss being in the same room as you but know that I will be here soon.</p><p>Until we're together again, hold onto this: you are loved, you are cherished, and you are always, always in my heart.</p><p>I can't wait to see you again and hold you close.</p><p style="text-align:right;font-style:italic;margin-top:30px;">Missing you endlessly ❤️</p>`
+        },
+        french: {
+            title: "When You Feel A Bit French 🇫🇷",
+            content: `<div style="text-align:center;"><p style="font-size:2em;color:#ff1493;margin-bottom:10px;"><strong>🇫🇷 Petite Leçon de Français 🇫🇷</strong></p><p style="font-size:1.3em;color:#ff69b4;font-style:italic;margin-bottom:40px;">Pour Mon Amour Karina 💙✨</p></div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:25px;margin-bottom:40px;"><div style="background:linear-gradient(135deg,#fff5f8,#ffe9f5);padding:25px;border-radius:15px;border-left:5px solid #ff69b4;"><h3 style="color:#ff1493;margin-bottom:15px;text-align:center;">💕 Les Mots Doux</h3><p style="margin:8px 0;"><strong>Mon amour</strong> - My love</p><p style="margin:8px 0;"><strong>Ma chérie</strong> - My darling</p><p style="margin:8px 0;"><strong>Mon cœur</strong> - My heart</p><p style="margin:8px 0;"><strong>Ma belle</strong> - My beautiful</p><p style="margin:8px 0;"><strong>Mon trésor</strong> - My treasure</p><p style="margin:8px 0;"><strong>Ma vie</strong> - My life</p><p style="margin:8px 0;"><strong>Mon ange</strong> - My angel</p></div><div style="background:linear-gradient(135deg,#fff5f8,#ffe9f5);padding:25px;border-radius:15px;border-left:5px solid #ff1493;"><h3 style="color:#ff1493;margin-bottom:15px;text-align:center;">💖 Les Phrases</h3><p style="margin:8px 0;"><strong>Je t'aime</strong> - I love you</p><p style="margin:8px 0;"><strong>Tu me manques</strong> - I miss you</p><p style="margin:8px 0;"><strong>Tu es belle</strong> - You are beautiful</p><p style="margin:8px 0;"><strong>Je pense à toi</strong> - I'm thinking of you</p><p style="margin:8px 0;"><strong>Tu es tout pour moi</strong> - You are everything</p><p style="margin:8px 0;"><strong>Je suis fou de toi</strong> - I'm crazy about you</p><p style="margin:8px 0;"><strong>Mon cœur bat pour toi</strong> - My heart beats for you</p></div></div><p style="text-align:center;font-style:italic;margin-top:40px;font-size:1.4em;color:#ff1493;">Continue d'apprendre, mon amour! 💕<br><small style="color:#ff69b4;">(Keep learning, my love!)</small></p>`
+        },
+        date: {
+            title: "Our Special Date 💑",
+            content: `<p>My love,</p><p>I have been counting for weeks for this moment to arrive, every second, every hour I was thinking of this exact thing happening again and again in my mind.</p><p>Every moment with you is a gift from the universe, but tonight is extra special.</p><p><strong>You are the reason I am keeping up in life.</strong> <em>Tu es ma lumière dans l'obscurité. Eres mi razón de ser.</em></p><p>I love teaching you French because that means more time together. I love playing LinkedIn with the smartest woman ever. I love talking about you with everyone.</p><p><strong>I will follow you everywhere, even to the horrible Germany if I need to.</strong></p><p>I offer you this ring as a promise that one day you will get a bigger better one and we will see each other as my bride in 3 weddings all around the world.</p><p><em>Je t'aime plus que tout au monde. Te amo más de lo que las palabras pueden expresar.</em></p><div id="proposalSection" style="margin-top:50px;text-align:center;"><h2 style="font-size:2.5em;color:#ff1493;margin-bottom:30px;">¿Quieres ser mi novia? 💕</h2><div style="display:flex;gap:20px;justify-content:center;align-items:center;flex-wrap:wrap;"><button id="yesBtn" onclick="handleYes()" style="background:linear-gradient(135deg,#ff69b4,#ff1493);color:white;border:3px solid white;padding:20px 40px;font-size:1.5em;border-radius:50px;cursor:pointer;box-shadow:0 10px 30px rgba(255,105,180,0.5);transition:all 0.3s ease;font-weight:bold;">Sí ❤️</button><button id="noBtn" onclick="handleNo()" style="background:linear-gradient(135deg,#ffc1e0,#ffb3d9);color:#ff1493;border:3px solid #ff69b4;padding:20px 40px;font-size:1.5em;border-radius:50px;cursor:pointer;box-shadow:0 5px 15px rgba(255,182,193,0.4);transition:all 0.3s ease;font-weight:bold;">No</button></div></div><div id="celebrationSection" style="display:none;margin-top:50px;text-align:center;"><h2 style="font-size:3em;color:#ff1493;margin-bottom:20px;animation:pulse 1s ease-in-out infinite;">🎉 ¡SÍ DIJO QUE SÍ! 🎉</h2><p style="font-size:1.5em;color:#ff69b4;margin-bottom:30px;">¡Ahora somos novios oficialmente! 💑</p><div style="font-size:4em;animation:float 2s ease-in-out infinite;">💕💖💗💓💝💞</div></div><p style="text-align:right;font-style:italic;margin-top:30px;display:none;" id="signatureDate">Yours forever and always,<br>Seif ❤️</p>`
         }
+    };
 
-        function changeSlide(direction) {
-            currentSlide += direction;
-            if (currentSlide < 0) currentSlide = PHOTOS.length - 1;
-            if (currentSlide >= PHOTOS.length) currentSlide = 0;
-            updateCarousel();
-        }
+    let currentSlide = 0;
+    const PHOTOS = Array.from({length: NUMBER_OF_PHOTOS}, (_,i) => ({
+        src: `Pictures/Picture (${i+1}).${PHOTO_EXTENSION}`,
+        caption: `Memory ${i+1}`
+    }));
 
-        function goToSlide(index) {
-            currentSlide = index;
-            updateCarousel();
-        }
-
-        function updateCarousel() {
-            const slidesContainer = document.getElementById('carouselSlides');
-            const dots = document.querySelectorAll('.carousel-dot');
-            
-            slidesContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
-            
-            dots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === currentSlide);
-            });
-            
-            updateCounter();
-        }
-
-        function updateCounter() {
-            document.getElementById('carouselCounter').textContent = 
-                `${currentSlide + 1} / ${PHOTOS.length}`;
-        }
-
-        // Auto-play carousel
-        let autoPlayInterval = setInterval(() => changeSlide(1), 5000);
-
-        // Pause auto-play on hover
-        document.addEventListener('DOMContentLoaded', () => {
-            const carouselContainer = document.querySelector('.carousel-container');
-            if (carouselContainer) {
-                carouselContainer.addEventListener('mouseenter', () => {
-                    clearInterval(autoPlayInterval);
-                });
-                carouselContainer.addEventListener('mouseleave', () => {
-                    autoPlayInterval = setInterval(() => changeSlide(1), 5000);
-                });
-            }
+    function loadCarousel() {
+        const s = document.getElementById('carouselSlides');
+        const d = document.getElementById('carouselDots');
+        PHOTOS.forEach((photo, i) => {
+            const slide = document.createElement('div');
+            slide.className = 'carousel-slide';
+            slide.innerHTML = `<img src="${photo.src}" alt="${photo.caption}" onerror="this.src='https://via.placeholder.com/900x500/ff69b4/ffffff?text=Photo+${i+1}'"><div class="carousel-caption"><h3>${photo.caption}</h3></div>`;
+            s.appendChild(slide);
+            const dot = document.createElement('div');
+            dot.className = 'carousel-dot' + (i===0?' active':'');
+            dot.onclick = () => goToSlide(i);
+            d.appendChild(dot);
         });
+        updateCounter();
+    }
+    function changeSlide(dir) { currentSlide=(currentSlide+dir+PHOTOS.length)%PHOTOS.length; updateCarousel(); }
+    function goToSlide(i) { currentSlide=i; updateCarousel(); }
+    function updateCarousel() {
+        document.getElementById('carouselSlides').style.transform=`translateX(-${currentSlide*100}%)`;
+        document.querySelectorAll('.carousel-dot').forEach((d,i)=>d.classList.toggle('active',i===currentSlide));
+        updateCounter();
+    }
+    function updateCounter() { document.getElementById('carouselCounter').textContent=`${currentSlide+1} / ${PHOTOS.length}`; }
+    let autoPlay = setInterval(()=>changeSlide(1),5000);
+    document.addEventListener('DOMContentLoaded',()=>{
+        const c = document.querySelector('.carousel-container');
+        if(c){ c.addEventListener('mouseenter',()=>clearInterval(autoPlay)); c.addEventListener('mouseleave',()=>{ autoPlay=setInterval(()=>changeSlide(1),5000); }); }
+    });
+    document.addEventListener('keydown',e=>{ if(e.key==='ArrowLeft')changeSlide(-1); if(e.key==='ArrowRight')changeSlide(1); });
 
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft') changeSlide(-1);
-            if (e.key === 'ArrowRight') changeSlide(1);
+    function openLetter(type) {
+        const l=letters[type];
+        document.getElementById('modalTitle').textContent=l.title;
+        document.getElementById('modalBody').innerHTML=l.content;
+        document.getElementById('modal').classList.add('active');
+    }
+    let noClickCount=0;
+    function handleYes() {
+        document.getElementById('proposalSection').style.display='none';
+        document.getElementById('celebrationSection').style.display='block';
+        document.getElementById('signatureDate').style.display='block';
+        createConfetti();
+    }
+    function handleNo() {
+        noClickCount++;
+        const y=document.getElementById('yesBtn'),n=document.getElementById('noBtn');
+        if(noClickCount>=5){ n.style.display='none'; y.style.fontSize='3em'; y.style.padding='40px 80px'; y.innerHTML='Sí ❤️❤️❤️'; return; }
+        y.style.fontSize=(1.5+noClickCount*0.3)+'em'; y.style.padding=(20+noClickCount*8)+'px '+(40+noClickCount*16)+'px';
+        n.style.fontSize=Math.max(0.6,1.5-noClickCount*0.2)+'em'; n.style.padding=Math.max(5,20-noClickCount*3)+'px '+Math.max(10,40-noClickCount*6)+'px';
+        const msgs=["¿Estás segura? 🥺","Por favor, reconsidéralo 💔","Mi corazón se está rompiendo... 😢","¿De verdad quieres romperme el corazón? 💔💔","Solo queda una opción... ❤️"];
+        let d=document.getElementById('desperateMessage');
+        if(!d){ d=document.createElement('div'); d.id='desperateMessage'; d.style.cssText='margin-top:20px;font-size:1.2em;color:#ff1493;font-style:italic;'; document.getElementById('proposalSection').appendChild(d); }
+        d.textContent=msgs[noClickCount-1];
+    }
+    function createConfetti() {
+        const syms=['❤️','💕','💖','💗','💓','💝','💞'];
+        for(let i=0;i<50;i++) setTimeout(()=>{ const c=document.createElement('div'); c.textContent=syms[Math.floor(Math.random()*syms.length)]; c.style.cssText=`position:fixed;left:${Math.random()*100}%;top:-50px;font-size:${Math.random()*30+20}px;opacity:${Math.random()*0.5+0.5};pointer-events:none;z-index:9999;animation:confettiFall ${Math.random()*3+2}s linear forwards;`; document.body.appendChild(c); setTimeout(()=>c.remove(),5000); },i*50);
+    }
+    function closeModal() {
+        document.getElementById('modal').classList.remove('active');
+        noClickCount=0;
+        ['yesBtn','noBtn'].forEach(id=>{ const el=document.getElementById(id); if(el){ el.style.fontSize='1.5em'; el.style.padding='20px 40px'; if(id==='noBtn') el.style.display='inline-block'; else el.innerHTML='Sí ❤️'; } });
+        const d=document.getElementById('desperateMessage'); if(d) d.remove();
+    }
+    function showLockedMessage(e) { e.stopPropagation(); e.preventDefault(); document.getElementById('lockedModal').classList.add('active'); }
+    function closeLockedModal() { document.getElementById('lockedModal').classList.remove('active'); }
+    function openDateLetter() { if(new Date().getTime()>=new Date(DATE_TIME).getTime()) openLetter('date'); else showLockedMessage(event); }
+
+    const targetDate=new Date(DATE_TIME).getTime();
+    function updateCountdown() {
+        const dist=targetDate-new Date().getTime();
+        if(dist<0){ document.getElementById('countdown').style.display='none'; document.getElementById('dateArrived').classList.add('active'); document.getElementById('dateLock').classList.add('hidden'); return; }
+        document.getElementById('days').textContent=Math.floor(dist/(1000*60*60*24));
+        document.getElementById('hours').textContent=Math.floor((dist%(1000*60*60*24))/(1000*60*60));
+        document.getElementById('minutes').textContent=Math.floor((dist%(1000*60*60))/(1000*60));
+        document.getElementById('seconds').textContent=Math.floor((dist%(1000*60))/1000);
+    }
+    updateCountdown(); setInterval(updateCountdown,1000);
+    document.getElementById('modal').addEventListener('click',e=>{ if(e.target===document.getElementById('modal')) closeModal(); });
+    document.getElementById('lockedModal').addEventListener('click',e=>{ if(e.target===document.getElementById('lockedModal')) closeLockedModal(); });
+    loadCarousel();
+    document.querySelector('.recipient-name').textContent=`For Vida Mía: ${HER_NAME} 💕`;
+
+    function openBdayCard() { document.getElementById('bdayOverlay').classList.add('show'); spawnHearts(6); }
+    function closeBdayCard() { document.getElementById('bdayOverlay').classList.remove('show'); }
+    document.getElementById('bdayOverlay').addEventListener('click',e=>{ if(e.target===document.getElementById('bdayOverlay')) closeBdayCard(); });
+
+    function showBdayScreen(id) {
+        document.querySelectorAll('.bday-screen').forEach(s=>s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        document.getElementById('bdayCard').scrollTop=0;
+    }
+
+    function startBday() { initWordle(); showBdayScreen('bdayWordle'); }
+
+    function spawnHearts(n=6) {
+        const e=['💕','💖','❤️','🌹','✨','💗'];
+        for(let i=0;i<n;i++) setTimeout(()=>{
+            const h=document.createElement('div'); h.className='float-heart-anim';
+            h.textContent=e[Math.floor(Math.random()*e.length)];
+            h.style.left=(15+Math.random()*70)+'vw'; h.style.bottom='5vh';
+            h.style.animationDuration=(1.5+Math.random()*1.5)+'s';
+            document.body.appendChild(h); setTimeout(()=>h.remove(),3000);
+        },i*130);
+    }
+
+    const WORDLE_ANSWER = 'LOVE';
+    const WORDLE_MAX = 6;
+    let wordleGuesses = [], wordleCurrent = '', wordleDone = false;
+    const wordleKeyState = {};
+
+    function initWordle() {
+        wordleGuesses=[]; wordleCurrent=''; wordleDone=false;
+        const grid = document.getElementById('wordleGrid'); grid.innerHTML='';
+        for(let r=0;r<WORDLE_MAX;r++){
+            const row=document.createElement('div'); row.className='wordle-row'; row.id='wr'+r;
+            for(let c=0;c<4;c++){ const t=document.createElement('div'); t.className='wordle-tile'; t.id=`wt${r}${c}`; row.appendChild(t); }
+            grid.appendChild(row);
+        }
+        const kb=document.getElementById('wordleKeyboard'); kb.innerHTML='';
+        [['Q','W','E','R','T','Y','U','I','O','P'],['A','S','D','F','G','H','J','K','L'],['ENTER','Z','X','C','V','B','N','M','⌫']].forEach(row=>{
+            const r=document.createElement('div'); r.className='wordle-key-row';
+            row.forEach(k=>{ const btn=document.createElement('button'); btn.className='wordle-key'+(k.length>1?' wide':''); btn.textContent=k; btn.dataset.key=k; btn.onclick=()=>wordleKey(k); r.appendChild(btn); });
+            kb.appendChild(r);
         });
+        document.getElementById('wordleMsg').textContent='';
+    }
 
-        function openLetter(type) {
-            const letter = letters[type];
-            document.getElementById('modalTitle').textContent = letter.title;
-            document.getElementById('modalBody').innerHTML = letter.content;
-            document.getElementById('modal').classList.add('active');
+    document.addEventListener('keydown', e=>{
+        if(!document.getElementById('bdayWordle').classList.contains('active')) return;
+        if(wordleDone) return;
+        if(e.key==='Enter') wordleKey('ENTER');
+        else if(e.key==='Backspace') wordleKey('⌫');
+        else if(/^[a-zA-Z]$/.test(e.key)) wordleKey(e.key.toUpperCase());
+    });
+
+    function wordleKey(k) {
+        if(wordleDone) return;
+        const row=wordleGuesses.length; if(row>=WORDLE_MAX) return;
+        if(k==='⌫'){ if(wordleCurrent.length>0){ wordleCurrent=wordleCurrent.slice(0,-1); renderWordleRow(row); } }
+        else if(k==='ENTER'){ if(wordleCurrent.length<4){ document.getElementById('wordleMsg').textContent='Need 4 letters! 💕'; return; } submitWordleGuess(); }
+        else { if(wordleCurrent.length<4){ wordleCurrent+=k; renderWordleRow(row); } }
+    }
+
+    function renderWordleRow(row) {
+        for(let c=0;c<4;c++){ const t=document.getElementById(`wt${row}${c}`); t.textContent=wordleCurrent[c]||''; t.className='wordle-tile'+(wordleCurrent[c]?' filled':''); }
+    }
+
+    function submitWordleGuess() {
+        const guess=wordleCurrent, row=wordleGuesses.length, result=scoreWordle(guess);
+        result.forEach((r,c)=>{ setTimeout(()=>{ const t=document.getElementById(`wt${row}${c}`); t.className='wordle-tile '+r; const cur=wordleKeyState[guess[c]]; const priority={correct:3,present:2,absent:1}; if(!cur||priority[r]>priority[cur]){ wordleKeyState[guess[c]]=r; updateWordleKey(guess[c],r); } },c*120); });
+        wordleGuesses.push(guess); wordleCurrent='';
+        setTimeout(()=>{
+            if(guess===WORDLE_ANSWER){ wordleDone=true; document.getElementById('wordleMsg').textContent='LOVE! Of course you knew it 💕'; setTimeout(()=>{ spawnHearts(10); setTimeout(()=>{ initPinpoint(); showBdayScreen('bdayPinpoint'); },1200); },700); }
+            else if(wordleGuesses.length>=WORDLE_MAX){ wordleDone=true; document.getElementById('wordleMsg').textContent='It was LOVE! Moving on anyway… 💕'; setTimeout(()=>{ initPinpoint(); showBdayScreen('bdayPinpoint'); },1800); }
+            else { document.getElementById('wordleMsg').textContent=''; }
+        },500);
+    }
+
+    function scoreWordle(guess) {
+        const ans=WORDLE_ANSWER.split(''), g=guess.split(''), result=Array(4).fill('absent'), used=Array(4).fill(false);
+        g.forEach((ch,i)=>{ if(ch===ans[i]){ result[i]='correct'; used[i]=true; } });
+        g.forEach((ch,i)=>{ if(result[i]==='correct') return; for(let j=0;j<4;j++){ if(!used[j]&&ans[j]===ch){ result[i]='present'; used[j]=true; break; } } });
+        return result;
+    }
+
+    function updateWordleKey(k,state) {
+        document.querySelectorAll('.wordle-key').forEach(btn=>{ if(btn.dataset.key===k) btn.className='wordle-key'+(btn.dataset.key.length>1?' wide':'')+' '+state; });
+    }
+
+    const PINPOINT_CLUES = [{word:'Sentence'},{word:'Imprisonment'},{word:'YOLO'},{word:'Subscription'},{word:'Warranty'},{word:'Ride or Die'}];
+    const PINPOINT_ANSWER = ['FOR LIFE','FORLIFE','FOR-LIFE','LIFE'];
+    let pinpointRevealed=1, pinpointDone=false, pinpointAttemptsList=[];
+
+    function initPinpoint() {
+        pinpointRevealed=1; pinpointDone=false; pinpointAttemptsList=[];
+        document.getElementById('pinpointInput').value=''; document.getElementById('pinpointMsg').textContent=''; document.getElementById('pinpointAttempts').innerHTML='';
+        renderPinpointClues(); document.getElementById('revealClueBtn').disabled=false; document.getElementById('revealClueBtn').textContent='Reveal next clue 👁';
+    }
+
+    function renderPinpointClues() {
+        const c=document.getElementById('pinpointClues'); c.innerHTML='';
+        PINPOINT_CLUES.forEach((cl,i)=>{ const div=document.createElement('div'); div.className='pinpoint-clue-reveal'+(i>=pinpointRevealed?' hidden-clue':''); div.innerHTML=`<div class="clue-label">Clue ${i+1}</div><div class="clue-word">${cl.word}</div>`; c.appendChild(div); });
+    }
+
+    function revealNextClue() {
+        if(pinpointRevealed>=PINPOINT_CLUES.length){ document.getElementById('revealClueBtn').disabled=true; return; }
+        pinpointRevealed++; renderPinpointClues();
+        if(pinpointRevealed>=PINPOINT_CLUES.length) document.getElementById('revealClueBtn').disabled=true;
+    }
+
+    function submitPinpoint() {
+        if(pinpointDone) return;
+        const val=document.getElementById('pinpointInput').value.trim().toUpperCase(); if(!val) return;
+        document.getElementById('pinpointInput').value='';
+        if(PINPOINT_ANSWER.includes(val)){
+            pinpointDone=true;
+            const stars=pinpointRevealed<=2?'⭐⭐⭐':pinpointRevealed<=4?'⭐⭐':'⭐';
+            document.getElementById('pinpointMsg').textContent=`"For Life" — exactly right! ${stars} That's my answer too. 💕`;
+            addPinpointAttempt(val,true);
+            setTimeout(()=>{ spawnHearts(10); setTimeout(()=>{ initZip(); showBdayScreen('bdayZip'); },1200); },800);
+        } else {
+            addPinpointAttempt(val,false);
+            const msgs=["Not quite… revealing another clue! 💕","Keep thinking… here's another hint 🤔","Getting warmer! One more clue 🌹","Almost! Last hint for you 💭","Think about it… 💕"];
+            document.getElementById('pinpointMsg').textContent=msgs[Math.min(pinpointAttemptsList.length-1,msgs.length-1)];
+            if(pinpointRevealed<PINPOINT_CLUES.length){ setTimeout(()=>{ revealNextClue(); },600); }
         }
+    }
 
-        // Proposal interaction variables
-        let noClickCount = 0;
-        const maxNoClicks = 5;
+    function addPinpointAttempt(v,correct) {
+        pinpointAttemptsList.push({v,correct});
+        const c=document.getElementById('pinpointAttempts'); c.innerHTML='';
+        pinpointAttemptsList.forEach(a=>{ const b=document.createElement('div'); b.className='attempt-bubble'+(a.correct?'':' wrong'); b.textContent=a.v; c.appendChild(b); });
+    }
 
-        function handleYes() {
-            // Hide the proposal section
-            document.getElementById('proposalSection').style.display = 'none';
-            // Show the celebration section
-            document.getElementById('celebrationSection').style.display = 'block';
-            // Show the signature
-            document.getElementById('signatureDate').style.display = 'block';
-            
-            // Create confetti effect
-            createConfetti();
-        }
+    const ZIP_GRID_ROWS=5, ZIP_GRID_COLS=6;
+    const ZIP_PATH=[[0,2],[0,3],[1,3],[2,3],[2,2],[1,2],[1,1],[1,0],[2,0],[2,1],[3,1],[3,2],[4,2],[4,3],[3,3],[3,4],[2,4],[1,4],[1,5],[2,5]];
+    const ZIP_HEART_SET=new Set(ZIP_PATH.map(([r,c])=>`${r},${c}`));
+    const ZIP_NUM_MAP={};
+    ZIP_PATH.forEach(([r,c],i)=>{ ZIP_NUM_MAP[`${r},${c}`]=i+1; });
+    let zipCurrentStep=0, zipDone=false, zipCellOrder=[];
 
-        function handleNo() {
-            noClickCount++;
-            const yesBtn = document.getElementById('yesBtn');
-            const noBtn = document.getElementById('noBtn');
-            
-            if (noClickCount >= maxNoClicks) {
-                // After 5 clicks, No button disappears completely
-                noBtn.style.display = 'none';
-                yesBtn.style.fontSize = '3em';
-                yesBtn.style.padding = '40px 80px';
-                yesBtn.innerHTML = 'Sí ❤️❤️❤️';
-                return;
-            }
-            
-            // Calculate new sizes
-            const yesSize = 1.5 + (noClickCount * 0.3); // Grows from 1.5em to 3em
-            const noSize = 1.5 - (noClickCount * 0.2); // Shrinks from 1.5em to 0.5em
-            const yesPadding = 20 + (noClickCount * 8); // Grows padding
-            const noPadding = 20 - (noClickCount * 3); // Shrinks padding
-            
-            // Update Yes button (gets bigger)
-            yesBtn.style.fontSize = yesSize + 'em';
-            yesBtn.style.padding = yesPadding + 'px ' + (yesPadding * 2) + 'px';
-            
-            // Update No button (gets smaller)
-            noBtn.style.fontSize = noSize + 'em';
-            noBtn.style.padding = Math.max(5, noPadding) + 'px ' + Math.max(10, noPadding * 2) + 'px';
-            
-            // Add desperate messages
-            const messages = [
-                "¿Estás segura? 🥺",
-                "Por favor, reconsidéralo 💔",
-                "Mi corazón se está rompiendo... 😢",
-                "¿De verdad quieres romperme el corazón? 💔💔",
-                "Solo queda una opción... ❤️"
-            ];
-            
-            // Show message below buttons
-            let messageDiv = document.getElementById('desperateMessage');
-            if (!messageDiv) {
-                messageDiv = document.createElement('div');
-                messageDiv.id = 'desperateMessage';
-                messageDiv.style.cssText = 'margin-top: 20px; font-size: 1.2em; color: #ff1493; font-style: italic;';
-                document.getElementById('proposalSection').appendChild(messageDiv);
-            }
-            messageDiv.textContent = messages[noClickCount - 1];
-        }
-
-        function createConfetti() {
-            const colors = ['#ff69b4', '#ff1493', '#ffc1e0', '#ffb3d9', '#ff69b4'];
-            const symbols = ['❤️', '💕', '💖', '💗', '💓', '💝', '💞'];
-            
-            for (let i = 0; i < 50; i++) {
-                setTimeout(() => {
-                    const confetti = document.createElement('div');
-                    confetti.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-                    confetti.style.cssText = `
-                        position: fixed;
-                        left: ${Math.random() * 100}%;
-                        top: -50px;
-                        font-size: ${Math.random() * 30 + 20}px;
-                        opacity: ${Math.random() * 0.5 + 0.5};
-                        pointer-events: none;
-                        z-index: 9999;
-                        animation: confettiFall ${Math.random() * 3 + 2}s linear forwards;
-                    `;
-                    document.body.appendChild(confetti);
-                    
-                    setTimeout(() => confetti.remove(), 5000);
-                }, i * 50);
-            }
-        }
-
-        function closeModal() {
-            document.getElementById('modal').classList.remove('active');
-            // Reset proposal state when modal closes
-            noClickCount = 0;
-            const yesBtn = document.getElementById('yesBtn');
-            const noBtn = document.getElementById('noBtn');
-            if (yesBtn) {
-                yesBtn.style.fontSize = '1.5em';
-                yesBtn.style.padding = '20px 40px';
-                yesBtn.innerHTML = 'Sí ❤️';
-            }
-            if (noBtn) {
-                noBtn.style.fontSize = '1.5em';
-                noBtn.style.padding = '20px 40px';
-                noBtn.style.display = 'inline-block';
-            }
-            const messageDiv = document.getElementById('desperateMessage');
-            if (messageDiv) messageDiv.remove();
-        }
-
-        function showLockedMessage(event) {
-            event.stopPropagation();
-            event.preventDefault();
-            document.getElementById('lockedModal').classList.add('active');
-        }
-
-        function closeLockedModal() {
-            document.getElementById('lockedModal').classList.remove('active');
-        }
-
-        function openDateLetter() {
-            const now = new Date().getTime();
-            const targetDate = new Date(DATE_TIME).getTime();
-            
-            if (now >= targetDate) {
-                openLetter('date');
-            } else {
-                showLockedMessage(event);
+    function initZip() {
+        zipCurrentStep=0; zipDone=false; zipCellOrder=[];
+        const grid=document.getElementById('zipGrid'); grid.innerHTML=''; grid.style.gridTemplateColumns=`repeat(${ZIP_GRID_COLS}, 1fr)`;
+        for(let r=0;r<ZIP_GRID_ROWS;r++){
+            for(let c=0;c<ZIP_GRID_COLS;c++){
+                const cell=document.createElement('div'), isHeart=ZIP_HEART_SET.has(`${r},${c}`);
+                if(isHeart){ const num=ZIP_NUM_MAP[`${r},${c}`]; cell.className='zip-cell numbered'; cell.textContent=num; cell.dataset.row=r; cell.dataset.col=c; cell.dataset.num=num; cell.id=`zc${r}${c}`; cell.addEventListener('click',()=>zipTap(r,c)); }
+                else { cell.className='zip-cell empty'; cell.style.background='transparent'; cell.style.border='none'; cell.style.cursor='default'; }
+                grid.appendChild(cell);
             }
         }
+        document.getElementById('zipMsg').textContent='Start at 1 and follow the path! 💕';
+    }
 
-        // Countdown Timer
-        const targetDate = new Date(DATE_TIME).getTime();
-
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const distance = targetDate - now;
-
-            if (distance < 0) {
-                document.getElementById('countdown').style.display = 'none';
-                document.getElementById('dateArrived').classList.add('active');
-                document.getElementById('dateLock').classList.add('hidden');
-                return;
-            }
-
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            document.getElementById('days').textContent = days;
-            document.getElementById('hours').textContent = hours;
-            document.getElementById('minutes').textContent = minutes;
-            document.getElementById('seconds').textContent = seconds;
+    function zipTap(r,c) {
+        if(zipDone) return;
+        const expected=zipCurrentStep+1, num=ZIP_NUM_MAP[`${r},${c}`], cell=document.getElementById(`zc${r}${c}`);
+        if(!cell) return;
+        if(num!==expected){ document.getElementById('zipMsg').textContent=`Tap ${expected} next! 💕`; cell.style.transform='scale(0.88)'; setTimeout(()=>{ cell.style.transform=''; },200); return; }
+        zipCurrentStep++; zipCellOrder.push({r,c}); cell.classList.add('path');
+        if(zipCurrentStep===1) cell.classList.add('start');
+        if(zipCurrentStep===20) cell.classList.add('end');
+        document.getElementById('zipMsg').textContent=`${zipCurrentStep} / 20 💕`;
+        if(zipCurrentStep===20){
+            zipDone=true; document.getElementById('zipMsg').textContent='You drew a heart! 💕';
+            setTimeout(()=>{ zipCellOrder.forEach(({r,c},i)=>{ setTimeout(()=>{ const el=document.getElementById(`zc${r}${c}`); if(el){ el.classList.remove('path','start','end'); el.classList.add('correct-path'); } },i*55); }); },200);
+            setTimeout(()=>{ spawnHearts(14); setTimeout(()=>{ showBdayScreen('bdayFinal'); },1500); },1400);
         }
+    }
 
-        updateCountdown();
-        setInterval(updateCountdown, 1000);
-
-        // Close modal when clicking outside
-        document.getElementById('modal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeModal();
-            }
-        });
-
-        document.getElementById('lockedModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeLockedModal();
-            }
-        });
-
-        // Initialize carousel
-        loadCarousel();
-
-        function updatePersonalizedText() {
-            document.querySelector('.recipient-name').textContent = `For Vida Mía: ${HER_NAME} 💕`;
-        }
-
-        updatePersonalizedText();
+    function resetZip() { initZip(); }
     </script>
 </body>
 </html>
